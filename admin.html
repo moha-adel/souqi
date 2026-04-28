@@ -16,8 +16,6 @@
   --radius:14px;
 }
 body{font-family:'Cairo',sans-serif;background:var(--light);color:var(--dark);min-height:100vh}
-
-/* LOGIN */
 #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--dark);padding:20px}
 .login-box{background:#1a1c27;border-radius:20px;padding:40px 36px;width:100%;max-width:380px;border:1px solid #2a2d42;text-align:center}
 .login-logo{font-size:32px;font-weight:900;color:white;margin-bottom:6px}
@@ -26,11 +24,8 @@ body{font-family:'Cairo',sans-serif;background:var(--light);color:var(--dark);mi
 .login-label{font-size:13px;font-weight:700;color:#aaa;margin-bottom:6px;text-align:right}
 .login-input{width:100%;padding:12px 14px;background:#252838;border:1.5px solid #3a3d52;border-radius:10px;color:white;font-family:'Cairo',sans-serif;font-size:15px;outline:none;transition:border .2s;margin-bottom:16px;text-align:center;letter-spacing:4px}
 .login-input:focus{border-color:var(--gold)}
-.login-btn{width:100%;background:var(--gold);color:var(--dark);border:none;border-radius:10px;padding:13px;font-family:'Cairo',sans-serif;font-weight:900;font-size:15px;cursor:pointer;transition:all .2s}
-.login-btn:hover{background:#ffd07a}
+.login-btn{width:100%;background:var(--gold);color:var(--dark);border:none;border-radius:10px;padding:13px;font-family:'Cairo',sans-serif;font-weight:900;font-size:15px;cursor:pointer}
 .login-err{color:#ef4444;font-size:12px;margin-top:10px;display:none}
-
-/* ADMIN */
 #admin-screen{display:none}
 .admin-nav{background:var(--dark);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
 .admin-logo{font-size:22px;font-weight:900;color:white}
@@ -39,94 +34,75 @@ body{font-family:'Cairo',sans-serif;background:var(--light);color:var(--dark);mi
 .logout-btn{background:none;border:1px solid #3a3d52;color:#aaa;border-radius:8px;padding:6px 14px;font-family:'Cairo',sans-serif;font-size:13px;cursor:pointer}
 .logout-btn:hover{border-color:var(--red);color:var(--red)}
 .admin-body{padding:24px;max-width:960px;margin:0 auto}
-
-/* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
 .stat-card{background:white;border-radius:var(--radius);border:1px solid var(--border);padding:18px}
 .stat-num{font-size:28px;font-weight:900;color:var(--dark)}
 .stat-lbl{font-size:12px;color:var(--gray);margin-top:4px}
 .stat-gold{color:var(--gold)}
-
-/* TABS */
 .tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
-.tab{background:white;border:1.5px solid var(--border);border-radius:10px;padding:9px 18px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;color:var(--gray);cursor:pointer;transition:all .2s}
+.tab{background:white;border:1.5px solid var(--border);border-radius:10px;padding:9px 16px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;color:var(--gray);cursor:pointer;transition:all .2s}
 .tab.active{background:var(--dark);color:white;border-color:var(--dark)}
 .tab-content{display:none}
 .tab-content.active{display:block}
-
-/* CARDS */
 .card{background:white;border-radius:var(--radius);border:1px solid var(--border);padding:20px;margin-bottom:16px}
-.card-title{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-
-/* FORMS */
+.card-title{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:16px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .form-row.single{grid-template-columns:1fr}
-.form-row.triple{grid-template-columns:1fr 1fr 1fr}
 .field-lbl{font-size:12px;font-weight:700;color:var(--dark);margin-bottom:5px}
 .field-inp{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'Cairo',sans-serif;font-size:14px;color:var(--dark);background:var(--light);outline:none;transition:border .2s}
 .field-inp:focus{border-color:var(--gold);background:white}
 select.field-inp{cursor:pointer}
 textarea.field-inp{resize:vertical;min-height:70px}
+.img-hint{font-size:11px;color:var(--gray);margin-top:4px}
 .btn-gold{background:var(--gold);color:var(--dark);border:none;border-radius:9px;padding:10px 22px;font-family:'Cairo',sans-serif;font-weight:900;font-size:14px;cursor:pointer;transition:all .2s}
 .btn-gold:hover{background:#ffd07a}
-.btn-dark{background:var(--dark);color:white;border:none;border-radius:9px;padding:10px 22px;font-family:'Cairo',sans-serif;font-weight:700;font-size:14px;cursor:pointer}
+.btn-gold:disabled{background:#ccc;cursor:not-allowed}
 .btn-red{background:#fff0f0;color:var(--red);border:1px solid #fecaca;border-radius:8px;padding:6px 12px;font-family:'Cairo',sans-serif;font-size:12px;cursor:pointer}
-.btn-sm{padding:6px 14px;font-size:12px;border-radius:7px}
-
-/* LIST ITEMS */
+.btn-sm{padding:6px 14px;font-size:12px}
 .list-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .list-item:last-child{border-bottom:none}
 .item-icon{width:42px;height:42px;border-radius:10px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.item-img{width:42px;height:42px;border-radius:10px;object-fit:cover;flex-shrink:0}
 .item-info{flex:1}
 .item-name{font-size:14px;font-weight:700;color:var(--dark)}
 .item-sub{font-size:12px;color:var(--gray);margin-top:2px}
 .item-price{font-size:15px;font-weight:900;color:var(--gold)}
-
-/* BADGES */
 .badge{font-size:11px;padding:3px 9px;border-radius:6px;font-weight:700}
 .badge-green{background:#e8f5e9;color:#15803d}
 .badge-blue{background:#e8f0fe;color:#1d4ed8}
 .badge-amber{background:#fff8ec;color:#b45309}
 .badge-red{background:#fff0f0;color:var(--red)}
-
-/* ORDERS */
-.order-card{background:white;border-radius:var(--radius);border:1px solid var(--border);padding:16px;margin-bottom:10px}
-.order-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.order-id{font-size:14px;font-weight:700}
-.order-items{font-size:13px;color:var(--gray);margin-bottom:8px}
-.order-total{font-size:15px;font-weight:900;color:var(--gold)}
-.order-actions{display:flex;gap:8px;margin-top:10px}
-.btn-accept{background:#e8f5e9;color:#15803d;border:none;border-radius:7px;padding:7px 14px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
-.btn-reject{background:#fff0f0;color:var(--red);border:none;border-radius:7px;padding:7px 14px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
-
-/* CATEGORIES CHIPS */
-.cats-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.cat-chip-admin{display:flex;align-items:center;gap:6px;background:var(--light);border:1.5px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600}
-.cat-chip-admin .del-cat{background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;padding:0 0 0 2px}
-.cat-chip-admin .del-cat:hover{color:var(--red)}
-
-/* SHOP CARDS */
 .shop-card-admin{background:white;border-radius:var(--radius);border:1px solid var(--border);padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
 .shop-avatar-admin{width:48px;height:48px;border-radius:12px;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.shop-img-admin{width:48px;height:48px;border-radius:12px;object-fit:cover;flex-shrink:0}
 .shop-info-admin{flex:1}
 .shop-name-admin{font-size:15px;font-weight:700;color:var(--dark)}
 .shop-meta-admin{font-size:12px;color:var(--gray);margin-top:3px}
-
-/* SUBSCRIBERS */
+.cats-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.cat-chip-admin{display:flex;align-items:center;gap:6px;background:var(--light);border:1.5px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600}
+.cat-chip-admin .del-cat{background:none;border:none;color:#ccc;cursor:pointer;font-size:14px}
+.cat-chip-admin .del-cat:hover{color:var(--red)}
+.order-card{background:white;border-radius:var(--radius);border:1px solid var(--border);padding:16px;margin-bottom:10px}
+.order-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.order-actions{display:flex;gap:8px;margin-top:10px}
+.btn-accept{background:#e8f5e9;color:#15803d;border:none;border-radius:7px;padding:7px 14px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
+.btn-reject{background:#fff0f0;color:var(--red);border:none;border-radius:7px;padding:7px 14px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
 .sub-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
 .sub-row:last-child{border-bottom:none}
 .sub-avatar{width:36px;height:36px;border-radius:50%;background:#e8f0fe;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#1d4ed8;flex-shrink:0}
-
 .empty-state{text-align:center;padding:40px 20px;color:var(--gray);font-size:14px}
 .empty-icon{font-size:40px;margin-bottom:10px}
-
+.saving-indicator{display:none;align-items:center;gap:6px;font-size:12px;color:var(--gray);margin-top:8px}
+.saving-indicator.show{display:flex}
+.spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .toast{position:fixed;top:70px;right:20px;background:var(--dark);color:white;border-right:4px solid var(--gold);border-radius:10px;padding:12px 18px;font-size:13px;font-weight:600;z-index:300;opacity:0;transform:translateX(30px);transition:all .3s;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(0)}
-
-@media(max-width:600px){
-  .form-row,.form-row.triple{grid-template-columns:1fr}
-  .admin-body{padding:16px}
-}
+.firebase-status{display:flex;align-items:center;gap:6px;font-size:12px;padding:6px 12px;border-radius:8px;margin-bottom:16px}
+.firebase-status.connected{background:#e8f5e9;color:#15803d}
+.firebase-status.connecting{background:#fff8ec;color:#b45309}
+.firebase-status.error{background:#fff0f0;color:var(--red)}
+@media(max-width:600px){.form-row{grid-template-columns:1fr}.admin-body{padding:16px}}
 </style>
 </head>
 <body>
@@ -143,15 +119,19 @@ textarea.field-inp{resize:vertical;min-height:70px}
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- ADMIN -->
 <div id="admin-screen">
   <nav class="admin-nav">
     <div class="admin-logo">سوقي<span>.</span></div>
     <div class="admin-role">لوحة التحكم</div>
     <button class="logout-btn" onclick="doLogout()">خروج</button>
   </nav>
-
   <div class="admin-body">
+
+    <!-- Firebase Status -->
+    <div class="firebase-status connecting" id="fb-status">
+      <div class="spinner"></div> جاري الاتصال بقاعدة البيانات...
+    </div>
 
     <!-- STATS -->
     <div class="stats-grid">
@@ -170,9 +150,10 @@ textarea.field-inp{resize:vertical;min-height:70px}
       <button class="tab" onclick="switchTab('offers',this)">🔥 العروض</button>
       <button class="tab" onclick="switchTab('orders',this)">📋 الطلبات</button>
       <button class="tab" onclick="switchTab('subscribers',this)">👥 المشتركين</button>
+      <button class="tab" onclick="switchTab('announcements',this)">📢 الإعلانات</button>
     </div>
 
-    <!-- ══ SHOPS TAB ══ -->
+    <!-- SHOPS -->
     <div class="tab-content active" id="tab-shops">
       <div class="card">
         <div class="card-title">➕ أضف محل جديد</div>
@@ -186,34 +167,41 @@ textarea.field-inp{resize:vertical;min-height:70px}
         </div>
         <div class="form-row">
           <div><div class="field-lbl">المنطقة *</div><input class="field-inp" id="sh-area" placeholder="حي الزيتون، القاهرة"></div>
-          <div><div class="field-lbl">المسافة (مثال: ١٥٠ م)</div><input class="field-inp" id="sh-dist" placeholder="٢٠٠ م"></div>
+          <div><div class="field-lbl">المسافة</div><input class="field-inp" id="sh-dist" placeholder="٢٠٠ م"></div>
         </div>
-        <button class="btn-gold" onclick="addShop()">إضافة المحل ✓</button>
+        <div class="form-row single">
+          <div>
+            <div class="field-lbl">🖼️ رابط صورة المحل / اللوجو</div>
+            <input class="field-inp" id="sh-img" placeholder="https://i.imgur.com/xxxx.jpg" type="url">
+            <div class="img-hint">حمّل الصورة على imgur.com وحط الرابط هنا</div>
+          </div>
+        </div>
+        <button class="btn-gold" id="btn-add-shop" onclick="addShop()">إضافة المحل ✓</button>
+        <div class="saving-indicator" id="saving-shop"><div class="spinner"></div> جاري الحفظ...</div>
       </div>
       <div class="card">
         <div class="card-title">🏪 المحلات المسجلة</div>
-        <div id="shops-list"><div class="empty-state"><div class="empty-icon">🏪</div>مفيش محلات لسه</div></div>
+        <div id="shops-list"><div class="empty-state"><div class="empty-icon">🏪</div>جاري التحميل...</div></div>
       </div>
     </div>
 
-    <!-- ══ CATEGORIES TAB ══ -->
+    <!-- CATEGORIES -->
     <div class="tab-content" id="tab-cats">
       <div class="card">
         <div class="card-title">➕ أضف قسم جديد</div>
         <div class="form-row">
-          <div><div class="field-lbl">اسم القسم *</div><input class="field-inp" id="cat-name" placeholder="مثال: صيدلية"></div>
+          <div><div class="field-lbl">اسم القسم *</div><input class="field-inp" id="cat-name" placeholder="صيدلية"></div>
           <div><div class="field-lbl">الإيموجي *</div><input class="field-inp" id="cat-emoji" placeholder="💊" maxlength="4"></div>
         </div>
         <button class="btn-gold" onclick="addCat()">إضافة القسم ✓</button>
       </div>
       <div class="card">
         <div class="card-title">🗂️ الأقسام الحالية</div>
-        <div class="cats-wrap" id="cats-wrap"></div>
-        <p style="font-size:12px;color:var(--gray);margin-top:8px">⚠️ حذف القسم مش بيحذف المنتجات والمحلات المرتبطة بيه</p>
+        <div class="cats-wrap" id="cats-wrap"><div style="color:var(--gray);font-size:13px">جاري التحميل...</div></div>
       </div>
     </div>
 
-    <!-- ══ PRODUCTS TAB ══ -->
+    <!-- PRODUCTS -->
     <div class="tab-content" id="tab-products">
       <div class="card">
         <div class="card-title">➕ أضف منتج جديد</div>
@@ -229,15 +217,23 @@ textarea.field-inp{resize:vertical;min-height:70px}
           <div><div class="field-lbl">الإيموجي</div><input class="field-inp" id="p-emoji" placeholder="🧴" maxlength="4"></div>
           <div><div class="field-lbl">وصف مختصر</div><input class="field-inp" id="p-desc" placeholder="اختياري"></div>
         </div>
-        <button class="btn-gold" onclick="addProduct()">إضافة المنتج ✓</button>
+        <div class="form-row single">
+          <div>
+            <div class="field-lbl">🖼️ رابط صورة المنتج</div>
+            <input class="field-inp" id="p-img" placeholder="https://i.imgur.com/xxxx.jpg" type="url">
+            <div class="img-hint">حمّل الصورة على imgur.com وحط الرابط هنا</div>
+          </div>
+        </div>
+        <button class="btn-gold" id="btn-add-product" onclick="addProduct()">إضافة المنتج ✓</button>
+        <div class="saving-indicator" id="saving-product"><div class="spinner"></div> جاري الحفظ...</div>
       </div>
       <div class="card">
         <div class="card-title">📦 المنتجات</div>
-        <div id="products-list"><div class="empty-state"><div class="empty-icon">📦</div>مفيش منتجات لسه</div></div>
+        <div id="products-list"><div class="empty-state"><div class="empty-icon">📦</div>جاري التحميل...</div></div>
       </div>
     </div>
 
-    <!-- ══ OFFERS TAB ══ -->
+    <!-- OFFERS -->
     <div class="tab-content" id="tab-offers">
       <div class="card">
         <div class="card-title">🔥 أضف عرض جديد</div>
@@ -249,7 +245,7 @@ textarea.field-inp{resize:vertical;min-height:70px}
           <div><div class="field-lbl">سعر العرض *</div><input class="field-inp" id="o-new" type="number" placeholder="25" oninput="calcDiscount()"></div>
           <div><div class="field-lbl">نسبة الخصم</div><input class="field-inp" id="o-disc" readonly placeholder="%"></div>
         </div>
-        <div class="form-row single">
+        <div class="form-row">
           <div><div class="field-lbl">مدة العرض</div>
             <select class="field-inp" id="o-dur">
               <option value="1">ساعة واحدة</option>
@@ -258,402 +254,514 @@ textarea.field-inp{resize:vertical;min-height:70px}
               <option value="24" selected>يوم كامل</option>
             </select>
           </div>
+          <div>
+            <div class="field-lbl">🖼️ رابط صورة العرض (اختياري)</div>
+            <input class="field-inp" id="o-img" placeholder="https://i.imgur.com/xxxx.jpg" type="url">
+          </div>
         </div>
-        <button class="btn-gold" onclick="addOffer()">نشر العرض 🔥</button>
+        <button class="btn-gold" id="btn-add-offer" onclick="addOffer()">نشر العرض 🔥</button>
+        <div class="saving-indicator" id="saving-offer"><div class="spinner"></div> جاري الحفظ...</div>
       </div>
       <div class="card">
         <div class="card-title">🔥 العروض النشطة</div>
-        <div id="offers-list"><div class="empty-state"><div class="empty-icon">🔥</div>مفيش عروض نشطة</div></div>
+        <div id="offers-list"><div class="empty-state"><div class="empty-icon">🔥</div>جاري التحميل...</div></div>
       </div>
     </div>
 
-    <!-- ══ ORDERS TAB ══ -->
+    <!-- ORDERS -->
     <div class="tab-content" id="tab-orders">
       <div id="orders-list"><div class="empty-state"><div class="empty-icon">📋</div>مفيش طلبات لسه</div></div>
     </div>
 
-    <!-- ══ SUBSCRIBERS TAB ══ -->
+    <!-- SUBSCRIBERS -->
     <div class="tab-content" id="tab-subscribers">
       <div class="card">
-        <div class="card-title">👥 المشتركين في العروض</div>
-        <div id="subs-list"><div class="empty-state"><div class="empty-icon">👥</div>مفيش مشتركين لسه</div></div>
+        <div class="card-title">👥 المشتركين</div>
+        <div id="subs-list"><div class="empty-state"><div class="empty-icon">👥</div>جاري التحميل...</div></div>
+      </div>
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="tab-content" id="tab-announcements">
+      <div class="card">
+        <div class="card-title">📢 أضف إعلان / بوب أب</div>
+        <div class="form-row">
+          <div><div class="field-lbl">عنوان الإعلان *</div><input class="field-inp" id="an-title" placeholder="عرض خاص اليوم!"></div>
+          <div><div class="field-lbl">الإيموجي</div><input class="field-inp" id="an-emoji" placeholder="🎉" maxlength="4"></div>
+        </div>
+        <div class="form-row single">
+          <div><div class="field-lbl">نص الرسالة *</div><textarea class="field-inp" id="an-msg" placeholder="اكتب تفاصيل الإعلان..."></textarea></div>
+        </div>
+        <div class="form-row">
+          <div><div class="field-lbl">نص الشارة</div><input class="field-inp" id="an-badge" placeholder="إعلان"></div>
+          <div>
+            <div class="field-lbl">🖼️ رابط صورة (اختياري)</div>
+            <input class="field-inp" id="an-img" placeholder="https://i.imgur.com/xxxx.jpg" type="url">
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:var(--light);padding:12px;border-radius:9px;margin-bottom:12px">
+          <input type="checkbox" id="an-active" checked style="width:18px;height:18px;accent-color:var(--gold)">
+          <label for="an-active" style="font-size:13px;font-weight:700;cursor:pointer">تفعيل الإعلان (يظهر لما الزبون يفتح الموقع)</label>
+        </div>
+        <button class="btn-gold" id="btn-add-annc" onclick="addAnnouncement()">نشر الإعلان 📢</button>
+        <div class="saving-indicator" id="saving-annc"><div class="spinner"></div> جاري الحفظ...</div>
+      </div>
+      <div class="card">
+        <div class="card-title">📢 الإعلانات المضافة</div>
+        <div id="announcements-list"><div class="empty-state"><div class="empty-icon">📢</div>جاري التحميل...</div></div>
       </div>
     </div>
 
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
-<script>
-const PASS = 'souqi2025';
-const KEY = {
-  cats:     'souqi_cats',
-  shops:    'souqi_shops',
-  products: 'souqi_products',
-  offers:   'souqi_offers',
-  orders:   'souqi_orders',
-  subs:     'souqi_subscribers'
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, getDocs, addDoc, deleteDoc,
+  doc, updateDoc, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyCtGt1p9ijFI4e7VzW9xAWm1suFBshkzBo",
+  authDomain:        "souqi-598bd.firebaseapp.com",
+  projectId:         "souqi-598bd",
+  storageBucket:     "souqi-598bd.firebasestorage.app",
+  messagingSenderId: "1001650020030",
+  appId:             "1:1001650020030:web:d37c6d281912cc2b0d48ef"
 };
 
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+const PASS = 'souqi2025';
 const DEFAULT_CATS = [
-  {id:1, name:'بقالة',   emoji:'🛒'},
-  {id:2, name:'مكتبة',   emoji:'📚'},
-  {id:3, name:'أدوات',   emoji:'🔧'},
-  {id:4, name:'خضار',    emoji:'🥦'},
-  {id:5, name:'صيدلية',  emoji:'💊'},
-  {id:6, name:'خدمات',   emoji:'✂️'}
+  {id:'cat1',name:'بقالة',emoji:'🛒'},
+  {id:'cat2',name:'مكتبة',emoji:'📚'},
+  {id:'cat3',name:'أدوات',emoji:'🔧'},
+  {id:'cat4',name:'خضار', emoji:'🥦'},
+  {id:'cat5',name:'صيدلية',emoji:'💊'},
+  {id:'cat6',name:'خدمات',emoji:'✂️'},
 ];
 
-function load(k)    { try { return JSON.parse(localStorage.getItem(k)) || null; } catch { return null; } }
-function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
-function loadCats()    { return load(KEY.cats)     || DEFAULT_CATS; }
-function loadShops()   { return load(KEY.shops)    || []; }
-function loadProducts(){ return load(KEY.products) || []; }
-function loadOffers()  { return load(KEY.offers)   || []; }
-function loadOrders()  { return load(KEY.orders)   || []; }
-function loadSubs()    { return load(KEY.subs)      || []; }
+let allShops = [], allProducts = [], allCats = [];
+
+// ── helpers ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+function setSaving(id, on) {
+  document.getElementById('saving-'+id).classList.toggle('show', on);
+  const btn = document.getElementById('btn-add-'+id);
+  if(btn) btn.disabled = on;
+}
+function setFbStatus(state, msg) {
+  const el = document.getElementById('fb-status');
+  el.className = 'firebase-status ' + state;
+  el.innerHTML = (state==='connecting'?'<div class="spinner"></div> ':'state'==='connected'?'✅ ':'❌ ') + msg;
+}
 
 // ── AUTH ──
-function doLogin() {
-  if (document.getElementById('pass-input').value === PASS) {
+window.doLogin = function() {
+  if(document.getElementById('pass-input').value === PASS) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('admin-screen').style.display = 'block';
-    renderAll();
+    initAdmin();
   } else {
     document.getElementById('login-err').style.display = 'block';
   }
-}
-function doLogout() {
+};
+window.doLogout = function() {
   document.getElementById('admin-screen').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('pass-input').value = '';
-  document.getElementById('login-err').style.display = 'none';
+};
+document.getElementById('pass-input').addEventListener('keydown', e => { if(e.key==='Enter') window.doLogin(); });
+
+// ── INIT ──
+async function initAdmin() {
+  setFbStatus('connecting','جاري الاتصال بقاعدة البيانات...');
+  try {
+    await loadAll();
+    setFbStatus('connected','✅ متصل بقاعدة البيانات');
+    document.getElementById('fb-status').style.background = '#e8f5e9';
+    document.getElementById('fb-status').style.color = '#15803d';
+  } catch(e) {
+    setFbStatus('error','❌ خطأ في الاتصال: ' + e.message);
+  }
+}
+
+async function loadAll() {
+  const [shopsSnap, prodsSnap, catsSnap, offersSnap, ordersSnap, subsSnap, anncsSnap] = await Promise.all([
+    getDocs(collection(db,'shops')),
+    getDocs(collection(db,'products')),
+    getDocs(collection(db,'categories')),
+    getDocs(collection(db,'offers')),
+    getDocs(collection(db,'orders')),
+    getDocs(collection(db,'subscribers')),
+    getDocs(collection(db,'announcements')),
+  ]);
+  allShops    = shopsSnap.docs.map(d=>({id:d.id,...d.data()}));
+  allProducts = prodsSnap.docs.map(d=>({id:d.id,...d.data()}));
+  allCats     = catsSnap.docs.length ? catsSnap.docs.map(d=>({id:d.id,...d.data()})) : DEFAULT_CATS;
+  const offers = offersSnap.docs.map(d=>({id:d.id,...d.data()})).filter(o=>o.expires>Date.now());
+  const orders = ordersSnap.docs.map(d=>({id:d.id,...d.data()}));
+  const subs   = subsSnap.docs.map(d=>({id:d.id,...d.data()}));
+  const anncs  = anncsSnap.docs.map(d=>({id:d.id,...d.data()}));
+
+  renderShops(); renderProducts(); renderCats();
+  renderOffers(offers); renderOrders(orders);
+  renderSubscribers(subs); renderAnnouncements(anncs);
+  updateStats(allShops.length, allProducts.length, offers.length, orders.length, subs.length);
+  populateSelects();
+}
+
+// ── STATS ──
+function updateStats(sh,pr,of,or,su) {
+  document.getElementById('stat-shops').textContent    = sh||0;
+  document.getElementById('stat-products').textContent = pr||0;
+  document.getElementById('stat-offers').textContent   = of||0;
+  document.getElementById('stat-orders').textContent   = or||0;
+  document.getElementById('stat-subs').textContent     = su||0;
 }
 
 // ── TABS ──
-function switchTab(name, btn) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+window.switchTab = function(name, btn) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'products') { populateShopSelect(); populateCatSelect('p-cat'); }
-  if (name === 'offers')   { populateProductSelect(); }
-  if (name === 'shops')    { populateCatSelect('sh-cat'); }
-}
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='products') populateSelects();
+  if(name==='offers')   populateProductSelect();
+  if(name==='shops')    populateCatSelect('sh-cat');
+};
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+function populateSelects() {
+  populateCatSelect('sh-cat');
+  populateCatSelect('p-cat');
+  populateShopSelect();
+}
+function populateCatSelect(selId) {
+  const sel = document.getElementById(selId); if(!sel) return;
+  sel.innerHTML = allCats.map(c=>'<option value="'+c.name+'">'+c.emoji+' '+c.name+'</option>').join('');
+}
+function populateShopSelect() {
+  const sel = document.getElementById('p-shop'); if(!sel) return;
+  sel.innerHTML = allShops.length
+    ? allShops.map(s=>'<option value="'+s.id+'">'+( s.emoji||'🏪')+' '+s.name+'</option>').join('')
+    : '<option value="">أضف محلات أولاً</option>';
+}
+function populateProductSelect() {
+  const sel = document.getElementById('o-product'); if(!sel) return;
+  sel.innerHTML = allProducts.length
+    ? allProducts.map(p=>'<option value="'+p.id+'" data-price="'+p.price+'" data-img="'+(p.imageUrl||'')+'">'+( p.emoji||'📦')+' '+p.name+' ('+p.shopName+')</option>').join('')
+    : '<option>أضف منتجات أولاً</option>';
+  fillOfferPrice();
 }
 
 // ── CATEGORIES ──
-function addCat() {
+window.addCat = async function() {
   const name  = document.getElementById('cat-name').value.trim();
   const emoji = document.getElementById('cat-emoji').value.trim() || '📁';
-  if (!name) { showToast('اكتب اسم القسم ⚠️'); return; }
-  const cats = loadCats();
-  if (cats.find(c => c.name === name)) { showToast('القسم ده موجود بالفعل'); return; }
-  cats.push({ id: Date.now(), name, emoji });
-  save(KEY.cats, cats);
-  document.getElementById('cat-name').value = '';
-  document.getElementById('cat-emoji').value = '';
-  renderCats();
-  updateStats();
-  showToast('تمت إضافة القسم ✓');
-}
+  if(!name) { showToast('اكتب اسم القسم ⚠️'); return; }
+  try {
+    const docRef = await addDoc(collection(db,'categories'), {name, emoji, createdAt: serverTimestamp()});
+    allCats.push({id: docRef.id, name, emoji});
+    document.getElementById('cat-name').value = '';
+    document.getElementById('cat-emoji').value = '';
+    renderCats(); populateSelects();
+    showToast('تمت إضافة القسم ✓');
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
 
-function deleteCat(id) {
-  const cats = loadCats().filter(c => c.id !== id);
-  save(KEY.cats, cats);
-  renderCats();
-  showToast('تم حذف القسم');
-}
+window.deleteCat = async function(id) {
+  try {
+    await deleteDoc(doc(db,'categories',id));
+    allCats = allCats.filter(c=>c.id!==id);
+    renderCats(); populateSelects();
+    showToast('تم حذف القسم');
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
 
 function renderCats() {
   const wrap = document.getElementById('cats-wrap');
-  const cats = loadCats();
-  wrap.innerHTML = cats.map(c =>
-    '<div class="cat-chip-admin">' +
-    c.emoji + ' ' + c.name +
-    '<button class="del-cat" onclick="deleteCat(' + c.id + ')">✕</button>' +
-    '</div>'
+  if(!allCats.length) { wrap.innerHTML='<div style="color:var(--gray);font-size:13px">مفيش أقسام</div>'; return; }
+  wrap.innerHTML = allCats.map(c=>
+    '<div class="cat-chip-admin">'+c.emoji+' '+c.name+
+    '<button class="del-cat" onclick="deleteCat(\''+c.id+'\')">✕</button></div>'
   ).join('');
 }
 
-function populateCatSelect(selId) {
-  const sel = document.getElementById(selId);
-  if (!sel) return;
-  const cats = loadCats();
-  sel.innerHTML = cats.map(c => '<option value="' + c.name + '">' + c.emoji + ' ' + c.name + '</option>').join('');
-}
-
 // ── SHOPS ──
-function addShop() {
+window.addShop = async function() {
   const name  = document.getElementById('sh-name').value.trim();
   const phone = document.getElementById('sh-phone').value.trim();
   const cat   = document.getElementById('sh-cat').value;
   const emoji = document.getElementById('sh-emoji').value.trim() || '🏪';
   const area  = document.getElementById('sh-area').value.trim();
   const dist  = document.getElementById('sh-dist').value.trim();
-  if (!name || !phone || !area) { showToast('اكمل الحقول المطلوبة ⚠️'); return; }
-  const shops = loadShops();
-  shops.push({ id: Date.now(), name, phone, cat, emoji, area, dist, open: true });
-  save(KEY.shops, shops);
-  ['sh-name','sh-phone','sh-emoji','sh-area','sh-dist'].forEach(id => document.getElementById(id).value = '');
-  renderShops();
-  updateStats();
-  showToast('تمت إضافة المحل ✓');
-}
+  const imageUrl = document.getElementById('sh-img').value.trim();
+  if(!name||!phone||!area) { showToast('اكمل الحقول المطلوبة ⚠️'); return; }
+  setSaving('shop', true);
+  try {
+    const docRef = await addDoc(collection(db,'shops'), {name,phone,cat,emoji,area,dist,imageUrl,open:true,createdAt:serverTimestamp()});
+    allShops.push({id:docRef.id,name,phone,cat,emoji,area,dist,imageUrl,open:true});
+    ['sh-name','sh-phone','sh-emoji','sh-area','sh-dist','sh-img'].forEach(id=>document.getElementById(id).value='');
+    renderShops(); populateShopSelect();
+    updateStats(allShops.length);
+    showToast('تمت إضافة المحل ✓ — ظهر في الموقع فوراً 🎉');
+  } catch(e) { showToast('خطأ: '+e.message); }
+  setSaving('shop', false);
+};
 
-function deleteShop(id) {
-  save(KEY.shops, loadShops().filter(s => s.id !== id));
-  renderShops();
-  updateStats();
-  showToast('تم حذف المحل');
-}
+window.deleteShop = async function(id) {
+  try {
+    await deleteDoc(doc(db,'shops',id));
+    allShops = allShops.filter(s=>s.id!==id);
+    renderShops(); populateShopSelect();
+    showToast('تم حذف المحل');
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
 
-function toggleShop(id) {
-  const shops = loadShops();
-  const s = shops.find(x => x.id === id);
-  if (s) { s.open = !s.open; save(KEY.shops, shops); renderShops(); }
-}
+window.toggleShop = async function(id) {
+  const s = allShops.find(x=>x.id===id); if(!s) return;
+  s.open = !s.open;
+  try {
+    await updateDoc(doc(db,'shops',id),{open:s.open});
+    renderShops();
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
 
 function renderShops() {
   const list = document.getElementById('shops-list');
-  const shops = loadShops();
-  if (!shops.length) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🏪</div>مفيش محلات لسه — ضيف أول محل!</div>';
-    return;
-  }
-  list.innerHTML = shops.map(s =>
-    '<div class="shop-card-admin">' +
-    '<div class="shop-avatar-admin">' + s.emoji + '</div>' +
-    '<div class="shop-info-admin">' +
-    '<div class="shop-name-admin">' + s.name + '</div>' +
-    '<div class="shop-meta-admin">' + s.cat + ' · ' + s.area + (s.dist ? ' · ' + s.dist : '') + ' · ' + s.phone + '</div>' +
-    '</div>' +
-    '<span class="badge ' + (s.open ? 'badge-green' : 'badge-red') + '" style="cursor:pointer" onclick="toggleShop(' + s.id + ')">' +
-    (s.open ? 'مفتوح' : 'مغلق') + '</span>' +
-    '<button class="btn-red btn-sm" onclick="deleteShop(' + s.id + ')">حذف</button>' +
+  if(!allShops.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">🏪</div>مفيش محلات لسه</div>';return;}
+  list.innerHTML = allShops.map(s=>
+    '<div class="shop-card-admin">'+
+    (s.imageUrl?'<img src="'+s.imageUrl+'" class="shop-img-admin" onerror="this.outerHTML=\'<div class=shop-avatar-admin>'+s.emoji+'</div>\'">':'<div class="shop-avatar-admin">'+s.emoji+'</div>')+
+    '<div class="shop-info-admin"><div class="shop-name-admin">'+s.name+'</div><div class="shop-meta-admin">'+s.cat+' · '+s.area+(s.dist?' · '+s.dist:'')+'</div></div>'+
+    '<span class="badge '+(s.open?'badge-green':'badge-red')+'" style="cursor:pointer" onclick="toggleShop(\''+s.id+'\')">'+( s.open?'مفتوح':'مغلق')+'</span>'+
+    '<button class="btn-red btn-sm" onclick="deleteShop(\''+s.id+'\')">حذف</button>'+
     '</div>'
   ).join('');
 }
 
-function populateShopSelect() {
-  const sel = document.getElementById('p-shop');
-  if (!sel) return;
-  const shops = loadShops();
-  sel.innerHTML = shops.length
-    ? shops.map(s => '<option value="' + s.id + '">' + s.emoji + ' ' + s.name + '</option>').join('')
-    : '<option value="">أضف محلات أولاً</option>';
-}
-
 // ── PRODUCTS ──
-function addProduct() {
+window.addProduct = async function() {
   const name   = document.getElementById('p-name').value.trim();
   const price  = parseFloat(document.getElementById('p-price').value);
-  const shopId = parseInt(document.getElementById('p-shop').value);
+  const shopId = document.getElementById('p-shop').value;
   const cat    = document.getElementById('p-cat').value;
   const emoji  = document.getElementById('p-emoji').value.trim() || '📦';
   const desc   = document.getElementById('p-desc').value.trim();
-  if (!name || !price || !shopId) { showToast('اكمل اسم المنتج والسعر والمحل ⚠️'); return; }
-  const shops = loadShops();
-  const shop  = shops.find(s => s.id === shopId);
-  const products = loadProducts();
-  products.push({ id: Date.now(), name, price, shopId, shopName: shop ? shop.name : '', cat, emoji, desc });
-  save(KEY.products, products);
-  ['p-name','p-price','p-emoji','p-desc'].forEach(id => document.getElementById(id).value = '');
-  renderProducts();
-  updateStats();
-  showToast('تمت إضافة المنتج ✓');
-}
+  const imageUrl = document.getElementById('p-img').value.trim();
+  if(!name||!price||!shopId) { showToast('اكمل اسم المنتج والسعر والمحل ⚠️'); return; }
+  const shop = allShops.find(s=>s.id===shopId);
+  setSaving('product', true);
+  try {
+    const docRef = await addDoc(collection(db,'products'), {
+      name, price, shopId, shopName: shop?.name||'', cat, emoji, desc, imageUrl, createdAt: serverTimestamp()
+    });
+    allProducts.push({id:docRef.id, name, price, shopId, shopName:shop?.name||'', cat, emoji, desc, imageUrl});
+    ['p-name','p-price','p-emoji','p-desc','p-img'].forEach(id=>document.getElementById(id).value='');
+    renderProducts(); populateProductSelect();
+    updateStats(allShops.length, allProducts.length);
+    showToast('تمت إضافة المنتج ✓ — ظهر في الموقع فوراً 🎉');
+  } catch(e) { showToast('خطأ: '+e.message); }
+  setSaving('product', false);
+};
 
-function deleteProduct(id) {
-  save(KEY.products, loadProducts().filter(p => p.id !== id));
-  renderProducts();
-  updateStats();
-  showToast('تم الحذف');
-}
+window.deleteProduct = async function(id) {
+  try {
+    await deleteDoc(doc(db,'products',id));
+    allProducts = allProducts.filter(p=>p.id!==id);
+    renderProducts(); populateProductSelect();
+    showToast('تم الحذف');
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
 
 function renderProducts() {
   const list = document.getElementById('products-list');
-  const products = loadProducts();
-  if (!products.length) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div>مفيش منتجات لسه</div>';
-    return;
-  }
-  list.innerHTML = products.map(p =>
-    '<div class="list-item">' +
-    '<div class="item-icon">' + p.emoji + '</div>' +
-    '<div class="item-info">' +
-    '<div class="item-name">' + p.name + '</div>' +
-    '<div class="item-sub">' + (p.shopName || '') + ' · ' + (p.cat || '') + (p.desc ? ' · ' + p.desc : '') + '</div>' +
-    '</div>' +
-    '<div class="item-price">' + p.price + ' ج</div>' +
-    '<button class="btn-red" onclick="deleteProduct(' + p.id + ')">حذف</button>' +
+  if(!allProducts.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">📦</div>مفيش منتجات لسه</div>';return;}
+  list.innerHTML = allProducts.map(p=>
+    '<div class="list-item">'+
+    (p.imageUrl?'<img src="'+p.imageUrl+'" class="item-img" onerror="this.outerHTML=\'<div class=item-icon>'+p.emoji+'</div>\'">':'<div class="item-icon">'+p.emoji+'</div>')+
+    '<div class="item-info"><div class="item-name">'+p.name+'</div><div class="item-sub">'+p.shopName+' · '+(p.cat||'')+'</div></div>'+
+    '<div class="item-price">'+p.price+' ج</div>'+
+    '<button class="btn-red" onclick="deleteProduct(\''+p.id+'\')">حذف</button>'+
     '</div>'
   ).join('');
 }
 
 // ── OFFERS ──
-function populateProductSelect() {
+window.fillOfferPrice = function() {
   const sel = document.getElementById('o-product');
-  const products = loadProducts();
-  sel.innerHTML = products.length
-    ? products.map(p => '<option value="' + p.id + '" data-price="' + p.price + '">' + p.emoji + ' ' + p.name + ' (' + p.shopName + ')</option>').join('')
-    : '<option>أضف منتجات أولاً</option>';
-  fillOfferPrice();
-}
-
-function fillOfferPrice() {
-  const sel = document.getElementById('o-product');
-  const opt = sel.options[sel.selectedIndex];
-  document.getElementById('o-old').value = opt ? opt.dataset.price || '' : '';
+  const opt = sel?.options[sel.selectedIndex];
+  document.getElementById('o-old').value = opt?.dataset.price||'';
   document.getElementById('o-new').value = '';
   document.getElementById('o-disc').value = '';
-}
+};
+window.calcDiscount = function() {
+  const o = parseFloat(document.getElementById('o-old').value);
+  const n = parseFloat(document.getElementById('o-new').value);
+  document.getElementById('o-disc').value = (o&&n&&n<o) ? Math.round((1-n/o)*100)+'%' : '';
+};
 
-function calcDiscount() {
-  const oldP = parseFloat(document.getElementById('o-old').value);
-  const newP = parseFloat(document.getElementById('o-new').value);
-  if (oldP && newP && newP < oldP)
-    document.getElementById('o-disc').value = Math.round((1 - newP/oldP)*100) + '%';
-  else
-    document.getElementById('o-disc').value = '';
-}
-
-function addOffer() {
+window.addOffer = async function() {
   const sel  = document.getElementById('o-product');
-  const pid  = parseInt(sel.value);
+  const pid  = sel.value;
   const oldP = parseFloat(document.getElementById('o-old').value);
   const newP = parseFloat(document.getElementById('o-new').value);
   const dur  = parseInt(document.getElementById('o-dur').value);
-  if (!pid || !newP || newP >= oldP) { showToast('تأكد من بيانات العرض ⚠️'); return; }
-  const prod = loadProducts().find(p => p.id === pid);
-  if (!prod) return;
-  const offers = loadOffers();
-  offers.push({
-    id: Date.now(), productId: pid,
-    name: prod.name, emoji: prod.emoji,
-    shopName: prod.shopName,
-    oldPrice: oldP, newPrice: newP,
-    discount: Math.round((1 - newP/oldP)*100),
-    expires: Date.now() + dur * 3600000
-  });
-  save(KEY.offers, offers);
-  renderOffers();
-  updateStats();
-  showToast('تم نشر العرض 🔥');
-}
+  const offerImg = document.getElementById('o-img').value.trim();
+  if(!pid||!newP||newP>=oldP) { showToast('تأكد من بيانات العرض ⚠️'); return; }
+  const prod = allProducts.find(p=>p.id===pid);
+  if(!prod) return;
+  setSaving('offer', true);
+  try {
+    await addDoc(collection(db,'offers'), {
+      productId: pid, name: prod.name, emoji: prod.emoji,
+      shopName: prod.shopName, shopId: prod.shopId,
+      oldPrice: oldP, newPrice: newP,
+      discount: Math.round((1-newP/oldP)*100),
+      expires: Date.now() + dur*3600000,
+      imageUrl: offerImg || prod.imageUrl || '',
+      createdAt: serverTimestamp()
+    });
+    document.getElementById('o-img').value = '';
+    await reloadOffers();
+    showToast('تم نشر العرض 🔥 — ظهر في الموقع فوراً!');
+  } catch(e) { showToast('خطأ: '+e.message); }
+  setSaving('offer', false);
+};
 
-function deleteOffer(id) {
-  save(KEY.offers, loadOffers().filter(o => o.id !== id));
-  renderOffers();
-  updateStats();
+window.deleteOffer = async function(id) {
+  try {
+    await deleteDoc(doc(db,'offers',id));
+    await reloadOffers();
+    showToast('تم إنهاء العرض');
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
+
+async function reloadOffers() {
+  const snap = await getDocs(collection(db,'offers'));
+  const offers = snap.docs.map(d=>({id:d.id,...d.data()})).filter(o=>o.expires>Date.now());
+  renderOffers(offers);
+  document.getElementById('stat-offers').textContent = offers.length;
 }
 
 function timeLeft(exp) {
-  const ms = exp - Date.now();
-  if (ms <= 0) return 'انتهى';
-  const h = Math.floor(ms/3600000);
-  const m = Math.floor((ms%3600000)/60000);
-  return h > 0 ? h + ' ساعة ' + m + ' د' : m + ' دقيقة';
+  const ms = exp-Date.now(); if(ms<=0) return 'انتهى';
+  const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000);
+  return h>0?h+' ساعة '+m+' د':m+' دقيقة';
 }
-
-function renderOffers() {
+function renderOffers(offers) {
   const list = document.getElementById('offers-list');
-  const offers = loadOffers().filter(o => o.expires > Date.now());
-  if (!offers.length) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🔥</div>مفيش عروض نشطة</div>';
-    return;
-  }
-  list.innerHTML = offers.map(o =>
-    '<div class="list-item">' +
-    '<div class="item-icon">' + o.emoji + '</div>' +
-    '<div class="item-info">' +
-    '<div class="item-name">' + o.name + '</div>' +
-    '<div class="item-sub">' + (o.shopName||'') + ' · ⏰ متبقي: ' + timeLeft(o.expires) + '</div>' +
-    '</div>' +
-    '<div style="text-align:center">' +
-    '<div class="item-price">' + o.newPrice + ' ج</div>' +
-    '<span class="badge badge-amber">خصم ' + o.discount + '%</span>' +
-    '</div>' +
-    '<button class="btn-red" onclick="deleteOffer(' + o.id + ')">إنهاء</button>' +
+  if(!offers.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">🔥</div>مفيش عروض نشطة</div>';return;}
+  list.innerHTML = offers.map(o=>
+    '<div class="list-item">'+
+    (o.imageUrl?'<img src="'+o.imageUrl+'" class="item-img" onerror="this.outerHTML=\'<div class=item-icon>'+o.emoji+'</div>\'">':'<div class="item-icon">'+o.emoji+'</div>')+
+    '<div class="item-info"><div class="item-name">'+o.name+'</div><div class="item-sub">'+o.shopName+' · ⏰ '+timeLeft(o.expires)+'</div></div>'+
+    '<div style="text-align:center"><div class="item-price">'+o.newPrice+' ج</div><span class="badge badge-amber">خصم '+o.discount+'%</span></div>'+
+    '<button class="btn-red" onclick="deleteOffer(\''+o.id+'\')">إنهاء</button>'+
     '</div>'
   ).join('');
 }
 
 // ── ORDERS ──
-function renderOrders() {
+window.updateOrder = async function(id, status) {
+  try {
+    await updateDoc(doc(db,'orders',id),{status});
+    const snap = await getDocs(collection(db,'orders'));
+    renderOrders(snap.docs.map(d=>({id:d.id,...d.data()})));
+    showToast('تم تحديث الطلب');
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
+function renderOrders(orders) {
   const list = document.getElementById('orders-list');
-  const orders = loadOrders();
-  if (!orders.length) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>مفيش طلبات لسه<br><small>لما يجي طلب هيظهر هنا</small></div>';
-    return;
-  }
-  list.innerHTML = orders.map(o =>
-    '<div class="order-card">' +
-    '<div class="order-header"><span class="order-id">طلب #' + o.id + '</span>' +
-    '<span class="badge ' + (o.status==='جديد'?'badge-blue':o.status==='تم'?'badge-green':'badge-amber') + '">' + o.status + '</span></div>' +
-    '<div class="order-items">' + o.items + '</div>' +
-    '<div class="order-total">' + o.total + ' ج</div>' +
-    (o.status==='جديد' ?
-      '<div class="order-actions">' +
-      '<button class="btn-accept" onclick="updateOrder(' + o.id + ',\'تم\')">✓ قبول</button>' +
-      '<button class="btn-reject" onclick="updateOrder(' + o.id + ',\'ملغي\')">✕ إلغاء</button>' +
-      '</div>' : '') +
+  if(!orders.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div>مفيش طلبات لسه</div>';return;}
+  list.innerHTML = orders.map(o=>
+    '<div class="order-card">'+
+    '<div class="order-header"><span style="font-weight:700">طلب #'+o.id.slice(-4)+'</span>'+
+    '<span class="badge '+(o.status==='جديد'?'badge-blue':o.status==='تم'?'badge-green':'badge-amber')+'">'+o.status+'</span></div>'+
+    '<div style="font-size:13px;color:var(--gray);margin-bottom:8px">'+(o.items||'')+'</div>'+
+    '<div style="font-size:15px;font-weight:900;color:var(--gold)">'+(o.total||0)+' ج</div>'+
+    (o.status==='جديد'?'<div class="order-actions"><button class="btn-accept" onclick="updateOrder(\''+o.id+'\',\'تم\')">✓ قبول</button><button class="btn-reject" onclick="updateOrder(\''+o.id+'\',\'ملغي\')">✕ إلغاء</button></div>':'')+
     '</div>'
   ).join('');
-}
-
-function updateOrder(id, status) {
-  const orders = loadOrders();
-  const o = orders.find(x => x.id === id);
-  if (o) { o.status = status; save(KEY.orders, orders); renderOrders(); showToast('تم تحديث الطلب'); }
 }
 
 // ── SUBSCRIBERS ──
-function renderSubscribers() {
+function renderSubscribers(subs) {
   const list = document.getElementById('subs-list');
-  const subs = loadSubs();
-  if (!subs.length) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div>مفيش مشتركين لسه</div>';
-    return;
-  }
-  list.innerHTML = subs.map(s =>
-    '<div class="sub-row">' +
-    '<div class="sub-avatar">' + s.name.charAt(0) + '</div>' +
-    '<div style="flex:1"><div style="font-weight:700">' + s.name + '</div>' +
-    '<div style="color:var(--gray);font-size:12px">' + s.phone + ' · ' + s.area + '</div></div>' +
-    '<span class="badge badge-green">مشترك</span>' +
-    '</div>'
+  if(!subs.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">👥</div>مفيش مشتركين لسه</div>';return;}
+  list.innerHTML = subs.map(s=>
+    '<div class="sub-row">'+
+    '<div class="sub-avatar">'+s.name.charAt(0)+'</div>'+
+    '<div style="flex:1"><div style="font-weight:700">'+s.name+'</div><div style="color:var(--gray);font-size:12px">'+s.phone+' · '+s.area+'</div></div>'+
+    '<span class="badge badge-green">مشترك</span></div>'
   ).join('');
 }
 
-// ── STATS ──
-function updateStats() {
-  document.getElementById('stat-shops').textContent    = loadShops().length;
-  document.getElementById('stat-products').textContent = loadProducts().length;
-  document.getElementById('stat-offers').textContent   = loadOffers().filter(o => o.expires > Date.now()).length;
-  document.getElementById('stat-orders').textContent   = loadOrders().length;
-  document.getElementById('stat-subs').textContent     = loadSubs().length;
-}
+// ── ANNOUNCEMENTS ──
+window.addAnnouncement = async function() {
+  const title  = document.getElementById('an-title').value.trim();
+  const msg    = document.getElementById('an-msg').value.trim();
+  const emoji  = document.getElementById('an-emoji').value.trim() || '📢';
+  const badge  = document.getElementById('an-badge').value.trim() || 'إعلان';
+  const img    = document.getElementById('an-img').value.trim();
+  const active = document.getElementById('an-active').checked;
+  if(!title||!msg) { showToast('اكتب العنوان والرسالة ⚠️'); return; }
+  setSaving('annc', true);
+  try {
+    // deactivate old announcements if this one is active
+    if(active) {
+      const snap = await getDocs(collection(db,'announcements'));
+      await Promise.all(snap.docs.map(d=>updateDoc(doc(db,'announcements',d.id),{active:false})));
+    }
+    await addDoc(collection(db,'announcements'), {title, message:msg, emoji, badge, imageUrl:img, active, createdAt:serverTimestamp()});
+    ['an-title','an-msg','an-emoji','an-badge','an-img'].forEach(id=>document.getElementById(id).value='');
+    const snap2 = await getDocs(collection(db,'announcements'));
+    renderAnnouncements(snap2.docs.map(d=>({id:d.id,...d.data()})));
+    showToast('تم نشر الإعلان 📢 — يظهر فوراً للزبائن!');
+  } catch(e) { showToast('خطأ: '+e.message); }
+  setSaving('annc', false);
+};
 
-function renderAll() {
-  renderCats();
-  renderShops();
-  renderProducts();
-  renderOffers();
-  renderOrders();
-  renderSubscribers();
-  updateStats();
-  populateCatSelect('sh-cat');
-  populateCatSelect('p-cat');
-  populateShopSelect();
-  populateProductSelect();
+window.toggleAnnouncement = async function(id, current) {
+  try {
+    if(!current) {
+      const snap = await getDocs(collection(db,'announcements'));
+      await Promise.all(snap.docs.map(d=>updateDoc(doc(db,'announcements',d.id),{active:false})));
+    }
+    await updateDoc(doc(db,'announcements',id),{active:!current});
+    const snap2 = await getDocs(collection(db,'announcements'));
+    renderAnnouncements(snap2.docs.map(d=>({id:d.id,...d.data()})));
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
+
+window.deleteAnnouncement = async function(id) {
+  try {
+    await deleteDoc(doc(db,'announcements',id));
+    const snap = await getDocs(collection(db,'announcements'));
+    renderAnnouncements(snap.docs.map(d=>({id:d.id,...d.data()})));
+    showToast('تم الحذف');
+  } catch(e) { showToast('خطأ: '+e.message); }
+};
+
+function renderAnnouncements(anncs) {
+  const list = document.getElementById('announcements-list');
+  if(!anncs.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">📢</div>مفيش إعلانات لسه</div>';return;}
+  list.innerHTML = anncs.map(a=>
+    '<div class="list-item">'+
+    '<div class="item-icon" style="background:var(--gold-pale)">'+a.emoji+'</div>'+
+    '<div class="item-info"><div class="item-name">'+a.title+'</div><div class="item-sub">'+(a.message||'').substring(0,50)+'...</div></div>'+
+    '<span class="badge '+(a.active?'badge-green':'badge-amber')+'" style="cursor:pointer;white-space:nowrap" onclick="toggleAnnouncement(\''+a.id+'\','+!!a.active+')">'+(a.active?'✅ نشط':'⏸ متوقف')+'</span>'+
+    '<button class="btn-red" onclick="deleteAnnouncement(\''+a.id+'\')">حذف</button>'+
+    '</div>'
+  ).join('');
 }
 </script>
 </body>
