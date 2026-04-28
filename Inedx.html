@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سوقي – كل محلات منطقتك في مكان واحد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --dark: #0f1117;
+    --dark2: #1a1c27;
+    --dark3: #252838;
+    --gold: #f5a623;
+    --gold-light: #ffd07a;
+    --gold-pale: #fff8ec;
+    --white: #ffffff;
+    --gray: #8a8fa8;
+    --light: #f4f3ef;
+    --card-bg: #ffffff;
+    --border: #ebebeb;
+    --green: #22c55e;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--light);
+    color: var(--dark);
+    min-height: 100vh;
+    font-size: 15px;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--dark);
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { font-size: 26px; font-weight: 900; color: var(--white); letter-spacing: -1px; }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { color: #aaa; text-decoration: none; font-size: 14px; transition: color .2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--dark);
+    padding: 70px 5% 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-text { max-width: 520px; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245,166,35,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-size: 46px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+  .hero p {
+    color: #9ba3bc;
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 32px;
+    max-width: 440px;
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 10px;
+    padding: 13px 28px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 13px 28px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-num { font-size: 26px; font-weight: 900; color: var(--white); }
+  .stat-label { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+  /* mock phone in hero */
+  .hero-phone {
+    width: 260px;
+    background: #1e2133;
+    border-radius: 32px;
+    border: 6px solid #2a2d42;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .phone-status {
+    background: #0f1117;
+    padding: 6px 16px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #666;
+  }
+  .phone-inner { background: #f7f5f0; }
+  .ph-header {
+    background: #0f1117;
+    padding: 12px 14px;
+    color: white;
+  }
+  .ph-logo { font-weight: 900; font-size: 18px; }
+  .ph-logo span { color: var(--gold); }
+  .ph-search {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .ph-section { padding: 10px 12px 0; }
+  .ph-title { font-size: 11px; font-weight: 700; color: #1a1a2e; margin-bottom: 7px; }
+  .ph-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+  .ph-chip {
+    background: white;
+    border: 1px solid #e5e2d9;
+    border-radius: 12px;
+    padding: 3px 8px;
+    font-size: 9px;
+    color: #555;
+  }
+  .ph-chip.active { background: #1a1a2e; color: white; border-color: #1a1a2e; }
+  .ph-offers { display: flex; gap: 7px; overflow: hidden; }
+  .ph-offer {
+    background: white;
+    border-radius: 10px;
+    width: 80px;
+    flex-shrink: 0;
+    border: 1px solid #e5e2d9;
+    overflow: hidden;
+  }
+  .ph-offer-img {
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: #fef6e8;
+  }
+  .ph-offer-body { padding: 5px; }
+  .ph-offer-name { font-size: 8px; font-weight: 600; color: #1a1a2e; }
+  .ph-offer-price { font-size: 9px; color: var(--gold); font-weight: 700; }
+  .ph-shops { display: flex; flex-direction: column; gap: 5px; padding: 10px 12px 12px; }
+  .ph-shop {
+    background: white;
+    border-radius: 8px;
+    padding: 7px 9px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid #e5e2d9;
+  }
+  .ph-shop-icon {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    background: #fef6e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .ph-shop-name { font-size: 10px; font-weight: 600; color: #1a1a2e; }
+  .ph-shop-meta { font-size: 8px; color: #888; }
+  .ph-open { font-size: 8px; color: #22c55e; background: #e8f5e9; padding: 1px 5px; border-radius: 8px; margin-right: auto; }
+  .ph-nav {
+    background: white;
+    border-top: 1px solid #e5e2d9;
+    padding: 7px 0 10px;
+    display: flex;
+    justify-content: space-around;
+  }
+  .ph-nav-item { font-size: 8px; color: #aaa; text-align: center; }
+  .ph-nav-item.active { color: #1a1a2e; font-weight: 700; }
+  .ph-nav-icon { font-size: 14px; }
+
+  /* ─── SECTION SHARED ─── */
+  .section {
+    padding: 70px 5%;
+  }
+  .section-center { text-align: center; }
+  .section-tag {
+    display: inline-block;
+    background: var(--gold-pale);
+    color: var(--gold);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .section h2 {
+    font-size: 34px;
+    font-weight: 900;
+    color: var(--dark);
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+  .section-sub {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 520px;
+    margin: 0 auto 48px;
+  }
+
+  /* ─── CATEGORIES ─── */
+  .cats-bg { background: var(--white); }
+  .cats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+  }
+  .cat-card {
+    background: var(--light);
+    border-radius: var(--radius);
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .25s;
+    border: 1.5px solid transparent;
+  }
+  .cat-card:hover { border-color: var(--gold); background: var(--gold-pale); transform: translateY(-3px); }
+  .cat-icon { font-size: 34px; margin-bottom: 10px; }
+  .cat-name { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+  .cat-count { font-size: 12px; color: var(--gray); }
+
+  /* ─── OFFERS ─── */
+  .offers-bg { background: var(--light); }
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .offer-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: all .25s;
+    cursor: pointer;
+  }
+  .offer-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  .offer-thumb {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 54px;
+    background: #fef6e8;
+    position: relative;
+  }
+  .offer-thumb.blue-bg { background: #e8f0fe; }
+  .offer-thumb.green-bg { background: #e8f5e9; }
+  .offer-thumb.pink-bg { background: #fde8f0; }
+  .discount-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--dark);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+  .offer-body { padding: 14px; }
+  .offer-shop-tag {
+    font-size: 11px;
+    color: var(--gray);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .offer-name { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+  .offer-pricing { display: flex; align-items: center; gap: 8px; }
+  .offer-new-price { font-size: 18px; font-weight: 900; color: var(--gold); }
+  .offer-old-price { font-size: 13px; color: #bbb; text-decoration: line-through; }
+  .offer-timer {
+    margin-top: 10px;
+    background: #fff0d6;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 11px;
+    color: #b87a10;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .add-btn {
+    margin-top: 10px;
+    width: 100%;
+    background: var(--dark);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 9px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .add-btn:hover { background: var(--gold); color: var(--dark); }
+
+  /* ─── SHOPS ─── */
+  .shops-bg { background: var(--white); }
+  .shops-filter {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    justify-content: center;
+  }
+  .filter-btn {
+    background: var(--light);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--dark);
+    color: var(--white);
+    border-color: var(--dark);
+  }
+  .shops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .shop-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: all .25s;
+    cursor: pointer;
+  }
+  .shop-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+  .shop-avatar {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .shop-info { flex: 1; }
+  .shop-name { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+  .shop-cat { font-size: 12px; color: var(--gray); margin-bottom: 8px; }
+  .shop-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .shop-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .badge-open { background: #e8f5e9; color: #15803d; }
+  .badge-dist { background: #e8f0fe; color: #1d4ed8; }
+  .shop-stars { color: var(--gold); font-size: 12px; font-weight: 700; }
+
+  /* ─── HOW IT WORKS ─── */
+  .how-bg { background: var(--dark); }
+  .how-bg .section-tag { background: rgba(245,166,35,0.15); color: var(--gold); }
+  .how-bg h2 { color: var(--white); }
+  .how-bg .section-sub { color: #9ba3bc; }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+  }
+  .step-card {
+    background: #1a1c27;
+    padding: 32px 24px;
+    position: relative;
+  }
+  .step-card:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+  .step-card:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+  .step-num {
+    font-size: 48px;
+    font-weight: 900;
+    color: rgba(245,166,35,0.15);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .step-icon { font-size: 28px; margin-bottom: 12px; }
+  .step-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .step-desc { font-size: 13px; color: #7a8299; line-height: 1.7; }
+
+  /* ─── SHOP OWNER ─── */
+  .owner-bg { background: var(--light); }
+  .owner-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .owner-text .section-tag { text-align: right; }
+  .owner-features { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+  .owner-feature {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    border: 1px solid var(--border);
+  }
+  .feature-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: var(--gold-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .feature-title { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .feature-desc { font-size: 12px; color: var(--gray); line-height: 1.6; }
+  .dashboard-mock {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .dash-header {
+    background: var(--dark);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .dash-logo { font-size: 16px; font-weight: 900; color: white; }
+  .dash-logo span { color: var(--gold); }
+  .dash-role { font-size: 11px; color: #666; background: #1e2133; padding: 3px 8px; border-radius: 5px; color: #aaa; }
+  .dash-body { padding: 20px; }
+  .dash-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .dash-stat {
+    background: var(--light);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .dash-stat-num { font-size: 22px; font-weight: 900; color: var(--dark); }
+  .dash-stat-label { font-size: 11px; color: var(--gray); margin-top: 2px; }
+  .dash-title { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+  .order-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .order-row:last-child { border-bottom: none; }
+  .order-id { color: var(--gray); }
+  .order-status {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+  }
+  .status-new { background: #e8f0fe; color: #1d4ed8; }
+  .status-done { background: #e8f5e9; color: #15803d; }
+  .status-pending { background: #fff8ec; color: #b45309; }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    background: var(--gold);
+    padding: 70px 5%;
+    text-align: center;
+  }
+  .cta-section h2 { font-size: 36px; font-weight: 900; color: var(--dark); margin-bottom: 14px; }
+  .cta-section p { color: rgba(15,17,23,0.7); font-size: 15px; margin-bottom: 32px; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .cta-btn-dark {
+    background: var(--dark);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 30px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+  }
+  .cta-btn-dark:hover { background: #1a1c27; transform: translateY(-2px); }
+  .cta-btn-white {
+    background: var(--white);
+    color: var(--dark);
+    border: none;
+    border-radius: 10px;
+    padding: 14px 30px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+  }
+  .cta-btn-white:hover { background: var(--light); transform: translateY(-2px); }
+
+  /* ─── CART SIDEBAR ─── */
+  .cart-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 200;
+  }
+  .cart-overlay.open { display: block; }
+  .cart-sidebar {
+    position: fixed;
+    top: 0;
+    left: -420px;
+    width: 380px;
+    height: 100%;
+    background: var(--white);
+    z-index: 201;
+    transition: left .3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .cart-sidebar.open { left: 0; }
+  .cart-sidebar-header {
+    background: var(--dark);
+    padding: 18px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cart-sidebar-title { font-size: 17px; font-weight: 700; }
+  .close-cart { background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
+  .cart-items { flex: 1; overflow-y: auto; padding: 16px; }
+  .cart-item-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--light);
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+  .cart-item-emoji { font-size: 28px; }
+  .cart-item-details { flex: 1; }
+  .cart-item-name { font-size: 13px; font-weight: 700; color: var(--dark); }
+  .cart-item-shop { font-size: 11px; color: var(--gray); }
+  .cart-item-price { font-size: 14px; font-weight: 700; color: var(--gold); }
+  .remove-item { background: none; border: none; color: #ccc; font-size: 18px; cursor: pointer; }
+  .remove-item:hover { color: #e53e3e; }
+  .cart-savings {
+    margin: 0 16px 12px;
+    background: #fff9e6;
+    border: 1px solid #f5d76e;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #b45309;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cart-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 14px;
+  }
+  .checkout-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .checkout-btn:hover { background: var(--gold-light); }
+  .whatsapp-note {
+    font-size: 11px;
+    color: var(--gray);
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  /* ─── CART ICON ─── */
+  .cart-float {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 13px 20px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all .2s;
+    z-index: 150;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  }
+  .cart-float:hover { background: var(--gold); color: var(--dark); }
+  .cart-float-badge {
+    background: var(--gold);
+    color: var(--dark);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 900;
+  }
+  .cart-float:hover .cart-float-badge { background: var(--dark); color: var(--gold); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark);
+    color: #9ba3bc;
+    padding: 40px 5%;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer strong { color: var(--gold); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .hero { padding: 40px 5%; }
+    .hero h1 { font-size: 32px; }
+    .hero-phone { display: none; }
+    .owner-layout { grid-template-columns: 1fr; }
+    .step-card:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+    .step-card:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+    .nav-links { display: none; }
+    .cart-sidebar { width: 100%; left: -100%; }
+  }
+  .toast {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--dark);
+    color: var(--white);
+    border-right: 4px solid var(--gold);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 300;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: all .3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">سوقي<span>.</span></div>
+  <div class="nav-links">
+    <a href="#cats">التصنيفات</a>
+    <a href="#offers">العروض</a>
+    <a href="#shops">المحلات</a>
+    <a href="#how">كيف يعمل</a>
+    <a href="#owner">سجّل محلك</a>
+  </div>
+  <button class="nav-cta" onclick="openCart()">🛒 سلتي (<span id="nav-count">0</span>)</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">🗺️ حي الزيتون، القاهرة</div>
+    <h1>كل محلات<br>منطقتك…<br><em>في مكان واحد</em></h1>
+    <p>تسوّق من أكتر من محل في نفس الوقت، اكتشف عروض اليوم، وادعم المحلات الصغيرة القريبة منك.</p>
+    <div class="hero-btns">
+      <a href="#shops" class="btn-primary">🛍️ تسوق دلوقتي</a>
+      <a href="#owner" class="btn-outline">سجّل محلك مجاناً</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">٢٨</div>
+        <div class="stat-label">محل مسجل</div>
+      </div>
+      <div>
+        <div class="stat-num">٣٢٠+</div>
+        <div class="stat-label">منتج متاح</div>
+      </div>
+      <div>
+        <div class="stat-num">١٥٠م</div>
+        <div class="stat-label">أقرب محل</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-phone">
+    <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+    <div class="phone-inner">
+      <div class="ph-header">
+        <div class="ph-logo">سوقي<span>.</span></div>
+        <div class="ph-search">🔍 ابحث عن منتج...</div>
+      </div>
+      <div class="ph-section">
+        <div class="ph-title">🔥 عروض اليوم</div>
+        <div class="ph-offers">
+          <div class="ph-offer"><div class="ph-offer-img">🧴</div><div class="ph-offer-body"><div class="ph-offer-name">شامبو</div><div class="ph-offer-price">٢٥ج</div></div></div>
+          <div class="ph-offer"><div class="ph-offer-img" style="background:#e8f0fe;">📓</div><div class="ph-offer-body"><div class="ph-offer-name">كراسة</div><div class="ph-offer-price">١٢ج</div></div></div>
+          <div class="ph-offer"><div class="ph-offer-img" style="background:#e8f5e9;">🌿</div><div class="ph-offer-body"><div class="ph-offer-name">شاي</div><div class="ph-offer-price">٣٠ج</div></div></div>
+        </div>
+      </div>
+      <div class="ph-shops">
+        <div class="ph-shop"><div class="ph-shop-icon">🏪</div><div><div class="ph-shop-name">بقالة أبو محمد</div><div class="ph-shop-meta">١٥٠ م · ★ ٤.٨</div></div><div class="ph-open">مفتوح</div></div>
+        <div class="ph-shop"><div class="ph-shop-icon" style="background:#e8f0fe;">📚</div><div><div class="ph-shop-name">مكتبة النور</div><div class="ph-shop-meta">٣٠٠ م · ★ ٤.٦</div></div><div class="ph-open">مفتوح</div></div>
+      </div>
+      <div class="ph-nav">
+        <div class="ph-nav-item active"><div class="ph-nav-icon">🏠</div><div>الرئيسية</div></div>
+        <div class="ph-nav-item"><div class="ph-nav-icon">🔍</div><div>بحث</div></div>
+        <div class="ph-nav-item"><div class="ph-nav-icon">🛒</div><div>سلتي</div></div>
+        <div class="ph-nav-item"><div class="ph-nav-icon">👤</div><div>حسابي</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="section cats-bg section-center" id="cats">
+  <div class="section-tag">تسوق حسب</div>
+  <h2>التصنيفات</h2>
+  <p class="section-sub">اختار نوع المحل اللي عايز تتسوق منه</p>
+  <div class="cats-grid">
+    <div class="cat-card" onclick="filterShops('بقالة')"><div class="cat-icon">🛒</div><div class="cat-name">بقالة</div><div class="cat-count">٨ محلات</div></div>
+    <div class="cat-card" onclick="filterShops('مكتبة')"><div class="cat-icon">📚</div><div class="cat-name">مكتبة</div><div class="cat-count">٤ محلات</div></div>
+    <div class="cat-card" onclick="filterShops('أدوات')"><div class="cat-icon">🔧</div><div class="cat-name">أدوات منزلية</div><div class="cat-count">٥ محلات</div></div>
+    <div class="cat-card" onclick="filterShops('خضار')"><div class="cat-icon">🥦</div><div class="cat-name">خضار وفاكهة</div><div class="cat-count">٦ محلات</div></div>
+    <div class="cat-card" onclick="filterShops('صيدلية')"><div class="cat-icon">💊</div><div class="cat-name">صيدلية</div><div class="cat-count">٣ محلات</div></div>
+    <div class="cat-card" onclick="filterShops('خدمات')"><div class="cat-icon">✂️</div><div class="cat-name">خدمات</div><div class="cat-count">٢ محلات</div></div>
+  </div>
+</section>
+
+<!-- OFFERS -->
+<section class="section offers-bg section-center" id="offers">
+  <div class="section-tag">🔥 لحظات محدودة</div>
+  <h2>عروض اليوم</h2>
+  <p class="section-sub">خصومات حقيقية من محلات منطقتك، بتتجدد كل يوم</p>
+  <div class="offers-grid" id="offers-grid">
+    <div class="offer-card">
+      <div class="offer-thumb"><div class="discount-tag">خصم ٢٠٪</div>🧴</div>
+      <div class="offer-body">
+        <div class="offer-shop-tag">🏪 بقالة أبو محمد</div>
+        <div class="offer-name">شامبو بانتين ٤٠٠مل</div>
+        <div class="offer-pricing"><span class="offer-new-price">٢٥ ج</span><span class="offer-old-price">٣١ ج</span></div>
+        <div class="offer-timer">⏰ ينتهي بعد ٣ ساعات</div>
+        <button class="add-btn" onclick="addToCart('شامبو بانتين', 25, '🧴', 'بقالة أبو محمد')">+ أضف للسلة</button>
+      </div>
+    </div>
+    <div class="offer-card">
+      <div class="offer-thumb blue-bg"><div class="discount-tag">خصم ١٥٪</div>📓</div>
+      <div class="offer-body">
+        <div class="offer-shop-tag">📚 مكتبة النور</div>
+        <div class="offer-name">كراسة A4 (٥ كراسات)</div>
+        <div class="offer-pricing"><span class="offer-new-price">١٢ ج</span><span class="offer-old-price">١٤ ج</span></div>
+        <div class="offer-timer">⏰ ينتهي بعد ٥ ساعات</div>
+        <button class="add-btn" onclick="addToCart('كراسة A4', 12, '📓', 'مكتبة النور')">+ أضف للسلة</button>
+      </div>
+    </div>
+    <div class="offer-card">
+      <div class="offer-thumb green-bg"><div class="discount-tag">خصم ١٠٪</div>🌿</div>
+      <div class="offer-body">
+        <div class="offer-shop-tag">🏪 بقالة أبو محمد</div>
+        <div class="offer-name">شاي أحمر ٢٠٠ جرام</div>
+        <div class="offer-pricing"><span class="offer-new-price">٣٠ ج</span><span class="offer-old-price">٣٣ ج</span></div>
+        <div class="offer-timer">⏰ ينتهي بعد ٨ ساعات</div>
+        <button class="add-btn" onclick="addToCart('شاي أحمر', 30, '🌿', 'بقالة أبو محمد')">+ أضف للسلة</button>
+      </div>
+    </div>
+    <div class="offer-card">
+      <div class="offer-thumb pink-bg"><div class="discount-tag">خصم ٢٥٪</div>🪴</div>
+      <div class="offer-body">
+        <div class="offer-shop-tag">🔧 أدوات الحاج سعيد</div>
+        <div class="offer-name">سبرتاية صغيرة</div>
+        <div class="offer-pricing"><span class="offer-new-price">١٥ ج</span><span class="offer-old-price">٢٠ ج</span></div>
+        <div class="offer-timer">⏰ ينتهي بعد ١ ساعة</div>
+        <button class="add-btn" onclick="addToCart('سبرتاية صغيرة', 15, '🪴', 'أدوات الحاج سعيد')">+ أضف للسلة</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOPS -->
+<section class="section shops-bg section-center" id="shops">
+  <div class="section-tag">📍 قريب منك</div>
+  <h2>المحلات</h2>
+  <p class="section-sub">محلات منطقتك، مرتبة حسب المسافة</p>
+  <div class="shops-filter">
+    <button class="filter-btn active" onclick="filterShops('الكل', this)">الكل</button>
+    <button class="filter-btn" onclick="filterShops('بقالة', this)">🛒 بقالة</button>
+    <button class="filter-btn" onclick="filterShops('مكتبة', this)">📚 مكتبة</button>
+    <button class="filter-btn" onclick="filterShops('أدوات', this)">🔧 أدوات</button>
+    <button class="filter-btn" onclick="filterShops('خضار', this)">🥦 خضار</button>
+  </div>
+  <div class="shops-grid" id="shops-grid">
+    <div class="shop-card" data-cat="بقالة">
+      <div class="shop-avatar" style="background:#fef6e8;">🏪</div>
+      <div class="shop-info">
+        <div class="shop-name">بقالة أبو محمد</div>
+        <div class="shop-cat">بقالة عامة</div>
+        <div class="shop-meta">
+          <span class="shop-badge badge-open">مفتوح الآن</span>
+          <span class="shop-badge badge-dist">١٥٠ م</span>
+          <span class="shop-stars">★ ٤.٨</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-card" data-cat="مكتبة">
+      <div class="shop-avatar" style="background:#e8f0fe;">📚</div>
+      <div class="shop-info">
+        <div class="shop-name">مكتبة النور</div>
+        <div class="shop-cat">قرطاسية وكتب</div>
+        <div class="shop-meta">
+          <span class="shop-badge badge-open">مفتوح الآن</span>
+          <span class="shop-badge badge-dist">٣٠٠ م</span>
+          <span class="shop-stars">★ ٤.٦</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-card" data-cat="أدوات">
+      <div class="shop-avatar" style="background:#e8f5e9;">🔧</div>
+      <div class="shop-info">
+        <div class="shop-name">أدوات الحاج سعيد</div>
+        <div class="shop-cat">أدوات منزلية وكهربائية</div>
+        <div class="shop-meta">
+          <span class="shop-badge badge-open">مفتوح الآن</span>
+          <span class="shop-badge badge-dist">٥٠٠ م</span>
+          <span class="shop-stars">★ ٤.٥</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-card" data-cat="خضار">
+      <div class="shop-avatar" style="background:#fde8f0;">🥦</div>
+      <div class="shop-info">
+        <div class="shop-name">فاكهة الحاج إبراهيم</div>
+        <div class="shop-cat">خضار وفاكهة طازجة</div>
+        <div class="shop-meta">
+          <span class="shop-badge badge-open">مفتوح الآن</span>
+          <span class="shop-badge badge-dist">٢٠٠ م</span>
+          <span class="shop-stars">★ ٤.٩</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-card" data-cat="بقالة">
+      <div class="shop-avatar" style="background:#fef6e8;">🏬</div>
+      <div class="shop-info">
+        <div class="shop-name">سوبرماركت الأمل</div>
+        <div class="shop-cat">بقالة وسوبرماركت</div>
+        <div class="shop-meta">
+          <span class="shop-badge badge-open">مفتوح الآن</span>
+          <span class="shop-badge badge-dist">٧٠٠ م</span>
+          <span class="shop-stars">★ ٤.٣</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-card" data-cat="مكتبة">
+      <div class="shop-avatar" style="background:#e8f0fe;">✏️</div>
+      <div class="shop-info">
+        <div class="shop-name">مكتبة المعرفة</div>
+        <div class="shop-cat">قرطاسية ومستلزمات</div>
+        <div class="shop-meta">
+          <span class="shop-badge badge-open">مفتوح الآن</span>
+          <span class="shop-badge badge-dist">٤٠٠ م</span>
+          <span class="shop-stars">★ ٤.٤</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-bg section-center" id="how">
+  <div class="section-tag">خطوات بسيطة</div>
+  <h2 style="color:white;">ازاي بيشتغل سوقي؟</h2>
+  <p class="section-sub">٤ خطوات بس وطلبك في طريقه إليك</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">١</div>
+      <div class="step-icon">📍</div>
+      <div class="step-title">حدد موقعك</div>
+      <div class="step-desc">افتح الموقع وحدد منطقتك وشوف المحلات القريبة منك فوراً</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">٢</div>
+      <div class="step-icon">🛒</div>
+      <div class="step-title">اختار منتجاتك</div>
+      <div class="step-desc">أضف منتجات من أكتر من محل في سلة واحدة بدون أي تعقيد</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">٣</div>
+      <div class="step-icon">✅</div>
+      <div class="step-title">أكّد طلبك</div>
+      <div class="step-desc">الطلب بيتبعت للمحل على واتساب مباشرة، سريع وسهل</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">٤</div>
+      <div class="step-icon">🚶</div>
+      <div class="step-title">استلم طلبك</div>
+      <div class="step-desc">روح استلم طلبك جاهز من المحل أو انتظر التوصيل على بابك</div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP OWNER -->
+<section class="section owner-bg" id="owner">
+  <div class="owner-layout">
+    <div class="owner-text">
+      <div class="section-tag">🏪 لأصحاب المحلات</div>
+      <h2>سجّل محلك<br>مجاناً في دقيقتين</h2>
+      <p style="color:var(--gray); line-height:1.8; margin: 14px 0 0;">مش محتاج خبرة تقنية. بس رقم موبايل وصور منتجاتك وابدأ تبيع أونلاين من النهارده.</p>
+      <div class="owner-features">
+        <div class="owner-feature">
+          <div class="feature-icon">📱</div>
+          <div>
+            <div class="feature-title">تسجيل برقم الموبايل بس</div>
+            <div class="feature-desc">مفيش ورق أو عقود معقدة. رقمك هو حسابك.</div>
+          </div>
+        </div>
+        <div class="owner-feature">
+          <div class="feature-icon">📸</div>
+          <div>
+            <div class="feature-title">أضف منتجاتك بالصور</div>
+            <div class="feature-desc">صوّر المنتج وحطه والسعر وخلاص.</div>
+          </div>
+        </div>
+        <div class="owner-feature">
+          <div class="feature-icon">🔥</div>
+          <div>
+            <div class="feature-title">نشر عروضك في ثواني</div>
+            <div class="feature-desc">حط عرض اليوم وبيوصل لكل الناس في منطقتك فوراً.</div>
+          </div>
+        </div>
+        <div class="owner-feature">
+          <div class="feature-icon">💬</div>
+          <div>
+            <div class="feature-title">الطلبات على واتساب مباشرة</div>
+            <div class="feature-desc">مش محتاج تتعلم حاجة جديدة، الطلبات بتيجي على واتسابك.</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 28px;">
+        <button class="btn-primary" onclick="openModal('modal-shop')">سجّل محلك دلوقتي →</button>
+      </div>
+    </div>
+    <div class="dashboard-mock">
+      <div class="dash-header">
+        <span class="dash-logo">سوقي<span>.</span></span>
+        <span class="dash-role">لوحة تحكم المحل</span>
+      </div>
+      <div class="dash-body">
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="dash-stat-num">١٤</div>
+            <div class="dash-stat-label">طلب اليوم</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-num">٨٦٠ ج</div>
+            <div class="dash-stat-label">مبيعات اليوم</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-num">٣٢</div>
+            <div class="dash-stat-label">منتج متاح</div>
+          </div>
+          <div class="dash-stat">
+            <div class="dash-stat-num">★ ٤.٨</div>
+            <div class="dash-stat-label">تقييمك</div>
+          </div>
+        </div>
+        <div class="dash-title">آخر الطلبات</div>
+        <div class="order-row">
+          <span style="font-weight:700; font-size:13px;">طلب #٠٠١٢</span>
+          <span style="font-size:12px; color:var(--gray);">شامبو × ٢، شاي × ١</span>
+          <span class="order-status status-new">جديد</span>
+        </div>
+        <div class="order-row">
+          <span style="font-weight:700; font-size:13px;">طلب #٠٠١١</span>
+          <span style="font-size:12px; color:var(--gray);">معجون × ٣</span>
+          <span class="order-status status-done">تم</span>
+        </div>
+        <div class="order-row">
+          <span style="font-weight:700; font-size:13px;">طلب #٠٠١٠</span>
+          <span style="font-size:12px; color:var(--gray);">زيت × ١، سكر × ٢</span>
+          <span class="order-status status-pending">جارٍ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>جاهز تبدأ تتسوق بذكاء؟</h2>
+  <p>ادعم القريب منك ووفّر أكتر</p>
+  <div class="cta-btns">
+    <a href="#shops" class="cta-btn-dark">🛍️ تسوق دلوقتي</a>
+    <a href="#owner" class="cta-btn-white">🏪 سجّل محلك</a>
+  </div>
+</section>
+
+<footer>
+  <div><strong>سوقي.</strong> — كل محلات منطقتك في مكان واحد</div>
+  <div style="margin-top: 8px;">© ٢٠٢٥ سوقي · حي الزيتون، القاهرة</div>
+</footer>
+
+<!-- CART -->
+<button class="cart-float" onclick="openCart()" id="cart-float" style="display:none;">
+  🛒 سلتي
+  <span class="cart-float-badge" id="cart-badge">0</span>
+</button>
+
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-sidebar-header">
+    <span class="cart-sidebar-title">🛒 سلتي</span>
+    <button class="close-cart" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-list">
+    <div style="text-align:center; color:var(--gray); padding: 40px 20px; font-size:14px;">سلتك فاضية 🛒<br><small>أضف منتجات من المحلات</small></div>
+  </div>
+  <div class="cart-savings" id="cart-savings" style="display:none;">
+    💡 <span id="savings-text"></span>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span>الإجمالي</span>
+      <span id="cart-total">٠ ج</span>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">تأكيد الطلب على واتساب ↗</button>
+    <div class="whatsapp-note">سيتم إرسال طلبك للمحل مباشرة عبر واتساب</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let cart = [];
+
+  function addToCart(name, price, emoji, shop) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ name, price, emoji, shop, qty: 1 });
+    }
+    updateCart();
+    showToast('تمت الإضافة للسلة ✓ ' + emoji);
+    document.getElementById('cart-float').style.display = 'flex';
+  }
+
+  function removeFromCart(name) {
+    cart = cart.filter(i => i.name !== name);
+    updateCart();
+    if (cart.length === 0) document.getElementById('cart-float').style.display = 'none';
+  }
+
+  function updateCart() {
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const shops = [...new Set(cart.map(i => i.shop))];
+
+    document.getElementById('cart-badge').textContent = count;
+    document.getElementById('nav-count').textContent = count;
+    document.getElementById('cart-total').textContent = total + ' ج';
+
+    const list = document.getElementById('cart-items-list');
+    if (cart.length === 0) {
+      list.innerHTML = '<div style="text-align:center; color:var(--gray); padding: 40px 20px; font-size:14px;">سلتك فاضية 🛒<br><small>أضف منتجات من المحلات</small></div>';
+    } else {
+      list.innerHTML = cart.map(item => `
+        <div class="cart-item-row">
+          <span class="cart-item-emoji">${item.emoji}</span>
+          <div class="cart-item-details">
+            <div class="cart-item-name">${item.name} × ${item.qty}</div>
+            <div class="cart-item-shop">${item.shop}</div>
+          </div>
+          <span class="cart-item-price">${item.price * item.qty} ج</span>
+          <button class="remove-item" onclick="removeFromCart('${item.name}')">✕</button>
+        </div>
+      `).join('');
+    }
+
+    const savings = document.getElementById('cart-savings');
+    if (shops.length > 1) {
+      savings.style.display = 'flex';
+      document.getElementById('savings-text').textContent = 'جمعت من ' + shops.length + ' محلات في سلة واحدة — وفّرت وقتك!';
+    } else {
+      savings.style.display = 'none';
+    }
+  }
+
+  function openCart() {
+    document.getElementById('cart-overlay').classList.add('open');
+    document.getElementById('cart-sidebar').classList.add('open');
+  }
+
+  function closeCart() {
+    document.getElementById('cart-overlay').classList.remove('open');
+    document.getElementById('cart-sidebar').classList.remove('open');
+  }
+
+  function checkout() {
+    if (cart.length === 0) { showToast('السلة فاضية!'); return; }
+    const items = cart.map(i => `- ${i.name} × ${i.qty} (${i.price * i.qty} ج)`).join('\n');
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const msg = encodeURIComponent(`مرحباً! عايز أطلب من سوقي:\n${items}\n\nالإجمالي: ${total} ج`);
+    window.open('https://wa.me/201000000000?text=' + msg, '_blank');
+  }
+
+  function filterShops(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    document.querySelectorAll('.shop-card').forEach(card => {
+      card.style.display = (cat === 'الكل' || card.dataset.cat === cat) ? '' : 'none';
+    });
+    if (cat !== 'الكل') {
+      document.getElementById('shops').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+  // ── MODAL LOGIC ──
+  function openModal(id) {
+    document.getElementById(id).style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function submitShopForm() {
+    const name  = document.getElementById('sh-name').value.trim();
+    const phone = document.getElementById('sh-phone').value.trim();
+    const cat   = document.getElementById('sh-cat').value;
+    const area  = document.getElementById('sh-area').value.trim();
+    if (!name || !phone || !cat || !area) {
+      showToast('من فضلك اكمل كل الحقول ⚠️'); return;
+    }
+    const msg = encodeURIComponent(
+      `مرحباً سوقي!\nعايز أسجل محلي:\n• الاسم: ${name}\n• الرقم: ${phone}\n• التصنيف: ${cat}\n• المنطقة: ${area}`
+    );
+    window.open('https://wa.me/201000000000?text=' + msg, '_blank');
+    closeModal('modal-shop');
+    showToast('تم إرسال طلب التسجيل ✅');
+  }
+
+  function submitUserForm() {
+    const name  = document.getElementById('us-name').value.trim();
+    const phone = document.getElementById('us-phone').value.trim();
+    const area  = document.getElementById('us-area').value.trim();
+    if (!name || !phone || !area) {
+      showToast('من فضلك اكمل كل الحقول ⚠️'); return;
+    }
+    closeModal('modal-user');
+    showToast('تم التسجيل! هيوصلك إشعار بأحدث العروض 🎉');
+  }
+</script>
+
+<!-- ══ MODAL: تسجيل المحل ══ -->
+<style>
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 400;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-box {
+    background: var(--white);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 460px;
+    overflow: hidden;
+    animation: popIn .25s ease;
+  }
+  @keyframes popIn {
+    from { transform: scale(.92); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+  .modal-head {
+    background: var(--dark);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-head-title { font-size: 17px; font-weight: 700; color: white; }
+  .modal-head-sub   { font-size: 12px; color: #8a8fa8; margin-top: 3px; }
+  .modal-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .field-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 5px;
+  }
+  .field-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    background: var(--light);
+    outline: none;
+    transition: border .2s;
+  }
+  .field-input:focus { border-color: var(--gold); background: white; }
+  select.field-input { cursor: pointer; }
+  .modal-footer { padding: 0 24px 24px; display: flex; gap: 10px; }
+  .modal-submit {
+    flex: 1;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .modal-submit:hover { background: var(--gold-light); }
+  .modal-cancel {
+    background: var(--light);
+    color: var(--gray);
+    border: none;
+    border-radius: 10px;
+    padding: 13px 18px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .step-pills {
+    display: flex;
+    gap: 6px;
+    padding: 0 24px 16px;
+  }
+  .step-pill {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+  }
+  .step-pill.done { background: var(--gold); }
+  .modal-icon-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .cat-pick {
+    flex: 1;
+    min-width: 80px;
+    background: var(--light);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    font-family: 'Cairo', sans-serif;
+    font-size: 11px;
+    color: var(--dark);
+  }
+  .cat-pick:hover, .cat-pick.selected {
+    border-color: var(--gold);
+    background: var(--gold-pale);
+    color: var(--dark);
+  }
+  .cat-pick-icon { font-size: 22px; margin-bottom: 4px; }
+  /* user modal accent */
+  .modal-head.user-head { background: #1a3a2a; }
+  .modal-submit.user-submit { background: #22c55e; }
+  .modal-submit.user-submit:hover { background: #16a34a; }
+</style>
+
+<div class="modal-backdrop" id="modal-shop" onclick="if(event.target===this)closeModal('modal-shop')">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <div class="modal-head-title">🏪 سجّل محلك على سوقي</div>
+        <div class="modal-head-sub">مجاني ١٠٠٪ — بيستغرق دقيقتين بس</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-shop')">✕</button>
+    </div>
+    <div class="step-pills">
+      <div class="step-pill done" id="sp1"></div>
+      <div class="step-pill done" id="sp2"></div>
+      <div class="step-pill" id="sp3"></div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="field-label">اسم المحل *</div>
+        <input class="field-input" id="sh-name" type="text" placeholder="مثال: بقالة أبو محمد">
+      </div>
+      <div>
+        <div class="field-label">رقم الواتساب *</div>
+        <input class="field-input" id="sh-phone" type="tel" placeholder="01xxxxxxxxx">
+      </div>
+      <div>
+        <div class="field-label">نوع المحل *</div>
+        <div class="modal-icon-row" id="cat-picks">
+          <div class="cat-pick" onclick="selectCat(this,'بقالة')"><div class="cat-pick-icon">🛒</div>بقالة</div>
+          <div class="cat-pick" onclick="selectCat(this,'مكتبة')"><div class="cat-pick-icon">📚</div>مكتبة</div>
+          <div class="cat-pick" onclick="selectCat(this,'أدوات')"><div class="cat-pick-icon">🔧</div>أدوات</div>
+          <div class="cat-pick" onclick="selectCat(this,'خضار')"><div class="cat-pick-icon">🥦</div>خضار</div>
+          <div class="cat-pick" onclick="selectCat(this,'خدمات')"><div class="cat-pick-icon">✂️</div>خدمات</div>
+        </div>
+        <input type="hidden" id="sh-cat">
+      </div>
+      <div>
+        <div class="field-label">المنطقة *</div>
+        <input class="field-input" id="sh-area" type="text" placeholder="مثال: حي الزيتون، القاهرة">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('modal-shop')">إلغاء</button>
+      <button class="modal-submit" onclick="submitShopForm()">إرسال على واتساب ↗</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: تسجيل المستخدم ══ -->
+<div class="modal-backdrop" id="modal-user" onclick="if(event.target===this)closeModal('modal-user')">
+  <div class="modal-box">
+    <div class="modal-head user-head">
+      <div>
+        <div class="modal-head-title">🔔 اشترك في عروض منطقتك</div>
+        <div class="modal-head-sub">هيوصلك إشعار بأحدث العروض كل يوم</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-user')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="field-label">اسمك *</div>
+        <input class="field-input" id="us-name" type="text" placeholder="اكتب اسمك">
+      </div>
+      <div>
+        <div class="field-label">رقم الواتساب *</div>
+        <input class="field-input" id="us-phone" type="tel" placeholder="01xxxxxxxxx">
+      </div>
+      <div>
+        <div class="field-label">منطقتك *</div>
+        <input class="field-input" id="us-area" type="text" placeholder="مثال: حي الزيتون، القاهرة">
+      </div>
+      <div>
+        <div class="field-label">التصنيفات اللي بتهمك</div>
+        <div class="modal-icon-row">
+          <div class="cat-pick selected" onclick="this.classList.toggle('selected')"><div class="cat-pick-icon">🛒</div>بقالة</div>
+          <div class="cat-pick selected" onclick="this.classList.toggle('selected')"><div class="cat-pick-icon">📚</div>مكتبة</div>
+          <div class="cat-pick" onclick="this.classList.toggle('selected')"><div class="cat-pick-icon">🔧</div>أدوات</div>
+          <div class="cat-pick" onclick="this.classList.toggle('selected')"><div class="cat-pick-icon">🥦</div>خضار</div>
+          <div class="cat-pick" onclick="this.classList.toggle('selected')"><div class="cat-pick-icon">✂️</div>خدمات</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeModal('modal-user')">إلغاء</button>
+      <button class="modal-submit user-submit" onclick="submitUserForm()">اشترك في العروض ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function selectCat(el, val) {
+    document.querySelectorAll('#cat-picks .cat-pick').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('sh-cat').value = val;
+  }
+
+  // wire up the "سجّل محلك" buttons to open modal instead
+  document.querySelectorAll('a[href="#owner"], button').forEach(el => {
+    if (el.textContent.includes('سجّل محلك دلوقتي')) {
+      el.onclick = (e) => { e.preventDefault(); openModal('modal-shop'); };
+    }
+  });
+  // wire nav CTA to user modal on second click — keep cart as primary
+  // Add a subscribe button to hero
+  const heroSub = document.createElement('button');
+  heroSub.className = 'btn-outline';
+  heroSub.style.marginTop = '10px';
+  heroSub.textContent = '🔔 اشترك في العروض';
+  heroSub.onclick = () => openModal('modal-user');
+  const heroBtns = document.querySelector('.hero-btns');
+  if (heroBtns) heroBtns.appendChild(heroSub);
+</script>
+</body>
+</html>
