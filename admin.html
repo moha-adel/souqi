@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سوقي – لوحة تحكم المحل</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --dark: #0f1117; --dark2: #1a1c27;
+  --gold: #f5a623; --gold-pale: #fff8ec;
+  --white: #fff; --gray: #8a8fa8;
+  --light: #f4f3ef; --border: #ebebeb;
+  --green: #22c55e; --red: #ef4444;
+  --radius: 14px;
+}
+body { font-family: 'Cairo', sans-serif; background: var(--light); color: var(--dark); min-height: 100vh; }
+
+/* ── LOGIN SCREEN ── */
+#login-screen {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--dark);
+  padding: 20px;
+}
+.login-box {
+  background: #1a1c27;
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 100%; max-width: 380px;
+  border: 1px solid #2a2d42;
+  text-align: center;
+}
+.login-logo { font-size: 32px; font-weight: 900; color: white; margin-bottom: 6px; }
+.login-logo span { color: var(--gold); }
+.login-sub { font-size: 13px; color: var(--gray); margin-bottom: 28px; }
+.login-label { font-size: 13px; font-weight: 700; color: #aaa; margin-bottom: 6px; text-align: right; }
+.login-input {
+  width: 100%; padding: 12px 14px;
+  background: #252838; border: 1.5px solid #3a3d52;
+  border-radius: 10px; color: white;
+  font-family: 'Cairo', sans-serif; font-size: 15px;
+  outline: none; transition: border .2s; margin-bottom: 16px;
+  text-align: center; letter-spacing: 4px;
+}
+.login-input:focus { border-color: var(--gold); }
+.login-btn {
+  width: 100%; background: var(--gold); color: var(--dark);
+  border: none; border-radius: 10px; padding: 13px;
+  font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 15px;
+  cursor: pointer; transition: all .2s;
+}
+.login-btn:hover { background: #ffd07a; }
+.login-err { color: #ef4444; font-size: 12px; margin-top: 10px; display: none; }
+
+/* ── ADMIN LAYOUT ── */
+#admin-screen { display: none; }
+.admin-nav {
+  background: var(--dark); padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px; position: sticky; top: 0; z-index: 100;
+}
+.admin-logo { font-size: 22px; font-weight: 900; color: white; }
+.admin-logo span { color: var(--gold); }
+.admin-role { font-size: 12px; color: var(--gray); background: #1e2133; padding: 4px 10px; border-radius: 6px; }
+.logout-btn {
+  background: none; border: 1px solid #3a3d52; color: #aaa;
+  border-radius: 8px; padding: 6px 14px;
+  font-family: 'Cairo', sans-serif; font-size: 13px; cursor: pointer;
+}
+.logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+.admin-body { padding: 24px; max-width: 900px; margin: 0 auto; }
+
+/* tabs */
+.tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.tab {
+  background: white; border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 9px 18px;
+  font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--gray); cursor: pointer; transition: all .2s;
+}
+.tab.active { background: var(--dark); color: white; border-color: var(--dark); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* stats */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+  gap: 12px; margin-bottom: 24px;
+}
+.stat-card {
+  background: white; border-radius: var(--radius);
+  border: 1px solid var(--border); padding: 18px;
+}
+.stat-num { font-size: 28px; font-weight: 900; color: var(--dark); }
+.stat-lbl { font-size: 12px; color: var(--gray); margin-top: 4px; }
+.stat-gold { color: var(--gold); }
+
+/* cards */
+.card {
+  background: white; border-radius: var(--radius);
+  border: 1px solid var(--border); padding: 20px; margin-bottom: 16px;
+}
+.card-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+/* form fields */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-row.single { grid-template-columns: 1fr; }
+.field-lbl { font-size: 12px; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
+.field-inp {
+  width: 100%; padding: 10px 13px;
+  border: 1.5px solid var(--border); border-radius: 9px;
+  font-family: 'Cairo', sans-serif; font-size: 14px; color: var(--dark);
+  background: var(--light); outline: none; transition: border .2s;
+}
+.field-inp:focus { border-color: var(--gold); background: white; }
+select.field-inp { cursor: pointer; }
+textarea.field-inp { resize: vertical; min-height: 70px; }
+
+.btn-gold {
+  background: var(--gold); color: var(--dark);
+  border: none; border-radius: 9px; padding: 10px 22px;
+  font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 14px;
+  cursor: pointer; transition: all .2s;
+}
+.btn-gold:hover { background: #ffd07a; }
+.btn-dark {
+  background: var(--dark); color: white;
+  border: none; border-radius: 9px; padding: 10px 22px;
+  font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 14px;
+  cursor: pointer; transition: all .2s;
+}
+.btn-dark:hover { background: #1a1c27; }
+.btn-red {
+  background: #fff0f0; color: var(--red);
+  border: 1px solid #fecaca; border-radius: 8px; padding: 6px 12px;
+  font-family: 'Cairo', sans-serif; font-size: 12px; cursor: pointer;
+}
+
+/* list items */
+.list-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.list-item:last-child { border-bottom: none; }
+.item-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--gold-pale); display: flex; align-items: center;
+  justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.item-info { flex: 1; }
+.item-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+.item-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+.item-price { font-size: 15px; font-weight: 900; color: var(--gold); }
+
+/* badge */
+.badge {
+  font-size: 11px; padding: 3px 9px; border-radius: 6px; font-weight: 700;
+}
+.badge-green { background: #e8f5e9; color: #15803d; }
+.badge-blue  { background: #e8f0fe; color: #1d4ed8; }
+.badge-amber { background: #fff8ec; color: #b45309; }
+
+/* orders */
+.order-card {
+  background: white; border-radius: var(--radius);
+  border: 1px solid var(--border); padding: 16px; margin-bottom: 10px;
+}
+.order-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.order-id { font-size: 14px; font-weight: 700; }
+.order-items { font-size: 13px; color: var(--gray); margin-bottom: 8px; }
+.order-total { font-size: 15px; font-weight: 900; color: var(--gold); }
+.order-actions { display: flex; gap: 8px; margin-top: 10px; }
+.btn-accept {
+  background: #e8f5e9; color: #15803d;
+  border: none; border-radius: 7px; padding: 7px 14px;
+  font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.btn-reject {
+  background: #fff0f0; color: var(--red);
+  border: none; border-radius: 7px; padding: 7px 14px;
+  font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+
+/* subscribers */
+.sub-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.sub-row:last-child { border-bottom: none; }
+.sub-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #e8f0fe; display: flex; align-items: center;
+  justify-content: center; font-size: 14px; font-weight: 700; color: #1d4ed8;
+  flex-shrink: 0;
+}
+.empty-state {
+  text-align: center; padding: 40px 20px;
+  color: var(--gray); font-size: 14px;
+}
+.empty-icon { font-size: 40px; margin-bottom: 10px; }
+
+.toast {
+  position: fixed; top: 70px; right: 20px;
+  background: var(--dark); color: white;
+  border-right: 4px solid var(--gold);
+  border-radius: 10px; padding: 12px 18px;
+  font-size: 13px; font-weight: 600;
+  z-index: 300; opacity: 0; transform: translateX(30px);
+  transition: all .3s; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(0); }
+
+@media(max-width:600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .admin-body { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">سوقي<span>.</span></div>
+    <div class="login-sub">لوحة تحكم المحل — للمحلات المسجلة فقط</div>
+    <div class="login-label">كلمة السر</div>
+    <input class="login-input" type="password" id="pass-input" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">دخول →</button>
+    <div class="login-err" id="login-err">كلمة السر غلط، حاول تاني</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin-screen">
+  <nav class="admin-nav">
+    <div class="admin-logo">سوقي<span>.</span></div>
+    <div class="admin-role">لوحة تحكم المحل</div>
+    <button class="logout-btn" onclick="doLogout()">خروج</button>
+  </nav>
+
+  <div class="admin-body">
+    <!-- stats -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card"><div class="stat-num" id="stat-products">0</div><div class="stat-lbl">منتج مضاف</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-offers">0</div><div class="stat-lbl">عرض نشط</div></div>
+      <div class="stat-card"><div class="stat-num" id="stat-orders">0</div><div class="stat-lbl">طلب وارد</div></div>
+      <div class="stat-card"><div class="stat-num stat-gold" id="stat-subs">0</div><div class="stat-lbl">مشترك</div></div>
+    </div>
+
+    <!-- tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('products',this)">📦 المنتجات</button>
+      <button class="tab" onclick="switchTab('offers',this)">🔥 العروض</button>
+      <button class="tab" onclick="switchTab('orders',this)">📋 الطلبات</button>
+      <button class="tab" onclick="switchTab('subscribers',this)">👥 المشتركين</button>
+    </div>
+
+    <!-- PRODUCTS TAB -->
+    <div class="tab-content active" id="tab-products">
+      <div class="card">
+        <div class="card-title">➕ أضف منتج جديد</div>
+        <div class="form-row">
+          <div><div class="field-lbl">اسم المنتج *</div><input class="field-inp" id="p-name" placeholder="مثال: شامبو بانتين"></div>
+          <div><div class="field-lbl">السعر (جنيه) *</div><input class="field-inp" id="p-price" type="number" placeholder="25"></div>
+        </div>
+        <div class="form-row">
+          <div><div class="field-lbl">التصنيف</div>
+            <select class="field-inp" id="p-cat">
+              <option>بقالة</option><option>مكتبة</option><option>أدوات</option><option>خضار</option><option>خدمات</option>
+            </select>
+          </div>
+          <div><div class="field-lbl">الإيموجي 😊</div><input class="field-inp" id="p-emoji" placeholder="🧴" maxlength="4"></div>
+        </div>
+        <div class="form-row single">
+          <div><div class="field-lbl">وصف المنتج</div><textarea class="field-inp" id="p-desc" placeholder="وصف مختصر..."></textarea></div>
+        </div>
+        <button class="btn-gold" onclick="addProduct()">إضافة المنتج ✓</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📦 المنتجات المضافة</div>
+        <div id="products-list"><div class="empty-state"><div class="empty-icon">📦</div>مفيش منتجات لسه — ضيف أول منتج!</div></div>
+      </div>
+    </div>
+
+    <!-- OFFERS TAB -->
+    <div class="tab-content" id="tab-offers">
+      <div class="card">
+        <div class="card-title">🔥 أضف عرض جديد</div>
+        <div class="form-row">
+          <div><div class="field-lbl">اختار منتج *</div>
+            <select class="field-inp" id="o-product" onchange="fillOfferPrice()"></select>
+          </div>
+          <div><div class="field-lbl">السعر الأصلي</div><input class="field-inp" id="o-old" type="number" placeholder="31" readonly></div>
+        </div>
+        <div class="form-row">
+          <div><div class="field-lbl">سعر العرض *</div><input class="field-inp" id="o-new" type="number" placeholder="25" oninput="calcDiscount()"></div>
+          <div><div class="field-lbl">نسبة الخصم</div><input class="field-inp" id="o-disc" placeholder="%" readonly></div>
+        </div>
+        <div class="form-row single">
+          <div><div class="field-lbl">مدة العرض</div>
+            <select class="field-inp" id="o-dur">
+              <option value="1">ساعة واحدة</option>
+              <option value="3">٣ ساعات</option>
+              <option value="6">٦ ساعات</option>
+              <option value="24" selected>يوم كامل</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-gold" onclick="addOffer()">نشر العرض 🔥</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔥 العروض النشطة</div>
+        <div id="offers-list"><div class="empty-state"><div class="empty-icon">🔥</div>مفيش عروض لسه — أضف أول عرض!</div></div>
+      </div>
+    </div>
+
+    <!-- ORDERS TAB -->
+    <div class="tab-content" id="tab-orders">
+      <div id="orders-list">
+        <div class="empty-state"><div class="empty-icon">📋</div>مفيش طلبات لسه<br><small>لما يجي طلب هيظهر هنا</small></div>
+      </div>
+    </div>
+
+    <!-- SUBSCRIBERS TAB -->
+    <div class="tab-content" id="tab-subscribers">
+      <div class="card">
+        <div class="card-title">👥 المشتركين في العروض</div>
+        <div id="subs-list"><div class="empty-state"><div class="empty-icon">👥</div>مفيش مشتركين لسه<br><small>لما حد يشترك من الموقع هيظهر هنا</small></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PASS = 'souqi2025';
+const KEY = {
+  products: 'souqi_products',
+  offers:   'souqi_offers',
+  orders:   'souqi_orders',
+  subs:     'souqi_subscribers'
+};
+
+function load(k) { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } }
+function save(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+
+function doLogin() {
+  const v = document.getElementById('pass-input').value;
+  if (v === PASS) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    renderAll();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+function doLogout() {
+  document.getElementById('admin-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pass-input').value = '';
+  document.getElementById('login-err').style.display = 'none';
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'offers') populateProductSelect();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── PRODUCTS ──
+function addProduct() {
+  const name  = document.getElementById('p-name').value.trim();
+  const price = parseFloat(document.getElementById('p-price').value);
+  const cat   = document.getElementById('p-cat').value;
+  const emoji = document.getElementById('p-emoji').value || '📦';
+  const desc  = document.getElementById('p-desc').value.trim();
+  if (!name || !price) { showToast('اكتب اسم المنتج والسعر ⚠️'); return; }
+  const products = load(KEY.products);
+  products.push({ id: Date.now(), name, price, cat, emoji, desc });
+  save(KEY.products, products);
+  ['p-name','p-price','p-emoji','p-desc'].forEach(id => document.getElementById(id).value = '');
+  renderProducts();
+  updateStats();
+  showToast('تمت إضافة المنتج ✓');
+}
+
+function deleteProduct(id) {
+  save(KEY.products, load(KEY.products).filter(p => p.id !== id));
+  renderProducts();
+  updateStats();
+  showToast('تم الحذف');
+}
+
+function renderProducts() {
+  const list = document.getElementById('products-list');
+  const products = load(KEY.products);
+  if (!products.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📦</div>مفيش منتجات لسه</div>';
+    return;
+  }
+  list.innerHTML = products.map(p => `
+    <div class="list-item">
+      <div class="item-icon">${p.emoji}</div>
+      <div class="item-info">
+        <div class="item-name">${p.name}</div>
+        <div class="item-sub">${p.cat}${p.desc ? ' · ' + p.desc : ''}</div>
+      </div>
+      <div class="item-price">${p.price} ج</div>
+      <button class="btn-red" onclick="deleteProduct(${p.id})">حذف</button>
+    </div>
+  `).join('');
+}
+
+// ── OFFERS ──
+function populateProductSelect() {
+  const sel = document.getElementById('o-product');
+  const products = load(KEY.products);
+  sel.innerHTML = products.length
+    ? products.map(p => `<option value="${p.id}" data-price="${p.price}">${p.emoji} ${p.name}</option>`).join('')
+    : '<option>أضف منتجات أولاً</option>';
+  fillOfferPrice();
+}
+
+function fillOfferPrice() {
+  const sel = document.getElementById('o-product');
+  const opt = sel.options[sel.selectedIndex];
+  const price = opt ? opt.dataset.price : '';
+  document.getElementById('o-old').value = price || '';
+  document.getElementById('o-new').value = '';
+  document.getElementById('o-disc').value = '';
+}
+
+function calcDiscount() {
+  const oldP = parseFloat(document.getElementById('o-old').value);
+  const newP = parseFloat(document.getElementById('o-new').value);
+  if (oldP && newP && newP < oldP) {
+    document.getElementById('o-disc').value = Math.round((1 - newP/oldP)*100) + '%';
+  } else {
+    document.getElementById('o-disc').value = '';
+  }
+}
+
+function addOffer() {
+  const sel     = document.getElementById('o-product');
+  const opt     = sel.options[sel.selectedIndex];
+  const pid     = parseInt(sel.value);
+  const oldP    = parseFloat(document.getElementById('o-old').value);
+  const newP    = parseFloat(document.getElementById('o-new').value);
+  const dur     = parseInt(document.getElementById('o-dur').value);
+  if (!pid || !newP || newP >= oldP) { showToast('تأكد من بيانات العرض ⚠️'); return; }
+  const products = load(KEY.products);
+  const prod = products.find(p => p.id === pid);
+  if (!prod) return;
+  const offers = load(KEY.offers);
+  const expires = Date.now() + dur * 3600000;
+  offers.push({
+    id: Date.now(), productId: pid,
+    name: prod.name, emoji: prod.emoji,
+    oldPrice: oldP, newPrice: newP,
+    discount: Math.round((1 - newP/oldP)*100),
+    expires
+  });
+  save(KEY.offers, offers);
+  renderOffers();
+  updateStats();
+  showToast('تم نشر العرض 🔥');
+}
+
+function deleteOffer(id) {
+  save(KEY.offers, load(KEY.offers).filter(o => o.id !== id));
+  renderOffers();
+  updateStats();
+}
+
+function timeLeft(expires) {
+  const ms = expires - Date.now();
+  if (ms <= 0) return 'انتهى';
+  const h = Math.floor(ms/3600000);
+  const m = Math.floor((ms%3600000)/60000);
+  return h > 0 ? `${h} ساعة ${m} د` : `${m} دقيقة`;
+}
+
+function renderOffers() {
+  const list = document.getElementById('offers-list');
+  const offers = load(KEY.offers).filter(o => o.expires > Date.now());
+  if (!offers.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🔥</div>مفيش عروض نشطة</div>';
+    return;
+  }
+  list.innerHTML = offers.map(o => `
+    <div class="list-item">
+      <div class="item-icon">${o.emoji}</div>
+      <div class="item-info">
+        <div class="item-name">${o.name}</div>
+        <div class="item-sub">⏰ متبقي: ${timeLeft(o.expires)}</div>
+      </div>
+      <div style="text-align:center">
+        <div class="item-price">${o.newPrice} ج</div>
+        <span class="badge badge-amber">خصم ${o.discount}%</span>
+      </div>
+      <button class="btn-red" onclick="deleteOffer(${o.id})">إنهاء</button>
+    </div>
+  `).join('');
+}
+
+// ── ORDERS ──
+function renderOrders() {
+  const list = document.getElementById('orders-list');
+  const orders = load(KEY.orders);
+  if (!orders.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>مفيش طلبات لسه<br><small>لما يجي طلب هيظهر هنا</small></div>';
+    return;
+  }
+  list.innerHTML = orders.map(o => `
+    <div class="order-card">
+      <div class="order-header">
+        <span class="order-id">طلب #${o.id}</span>
+        <span class="badge ${o.status==='جديد'?'badge-blue':o.status==='تم'?'badge-green':'badge-amber'}">${o.status}</span>
+      </div>
+      <div class="order-items">${o.items}</div>
+      <div class="order-total">${o.total} ج</div>
+      ${o.status==='جديد' ? `
+      <div class="order-actions">
+        <button class="btn-accept" onclick="updateOrder(${o.id},'تم')">✓ قبول وتجهيز</button>
+        <button class="btn-reject" onclick="updateOrder(${o.id},'ملغي')">✕ إلغاء</button>
+      </div>` : ''}
+    </div>
+  `).join('');
+}
+
+function updateOrder(id, status) {
+  const orders = load(KEY.orders);
+  const o = orders.find(x => x.id === id);
+  if (o) { o.status = status; save(KEY.orders, orders); renderOrders(); showToast('تم تحديث الطلب'); }
+}
+
+// ── SUBSCRIBERS ──
+function renderSubscribers() {
+  const list = document.getElementById('subs-list');
+  const subs = load(KEY.subs);
+  if (!subs.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div>مفيش مشتركين لسه</div>';
+    return;
+  }
+  list.innerHTML = subs.map(s => `
+    <div class="sub-row">
+      <div class="sub-avatar">${s.name.charAt(0)}</div>
+      <div style="flex:1">
+        <div style="font-weight:700">${s.name}</div>
+        <div style="color:var(--gray); font-size:12px">${s.phone} · ${s.area}</div>
+      </div>
+      <span class="badge badge-green">مشترك</span>
+    </div>
+  `).join('');
+}
+
+function updateStats() {
+  document.getElementById('stat-products').textContent = load(KEY.products).length;
+  document.getElementById('stat-offers').textContent = load(KEY.offers).filter(o => o.expires > Date.now()).length;
+  document.getElementById('stat-orders').textContent = load(KEY.orders).length;
+  document.getElementById('stat-subs').textContent = load(KEY.subs).length;
+}
+
+function renderAll() {
+  renderProducts();
+  renderOffers();
+  renderOrders();
+  renderSubscribers();
+  updateStats();
+}
+</script>
+</body>
+</html>

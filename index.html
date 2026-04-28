@@ -1116,6 +1116,9 @@
 <footer>
   <div><strong>سوقي.</strong> — كل محلات منطقتك في مكان واحد</div>
   <div style="margin-top: 8px;">© ٢٠٢٥ سوقي · حي الزيتون، القاهرة</div>
+  <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #1e2133;">
+    <a href="admin.html" style="color: #3a3d52; font-size: 12px; text-decoration: none;">🔐 دخول المحلات</a>
+  </div>
 </footer>
 
 <!-- CART -->
@@ -1272,9 +1275,44 @@
     if (!name || !phone || !area) {
       showToast('من فضلك اكمل كل الحقول ⚠️'); return;
     }
+    // save subscriber to localStorage (shared with admin panel)
+    try {
+      const subs = JSON.parse(localStorage.getItem('souqi_subscribers') || '[]');
+      const exists = subs.find(s => s.phone === phone);
+      if (!exists) {
+        subs.push({ id: Date.now(), name, phone, area });
+        localStorage.setItem('souqi_subscribers', JSON.stringify(subs));
+      }
+    } catch(e) {}
     closeModal('modal-user');
     showToast('تم التسجيل! هيوصلك إشعار بأحدث العروض 🎉');
   }
+
+  // load dynamic products/offers from admin localStorage and merge with static ones
+  function loadDynamicOffers() {
+    try {
+      const offers = JSON.parse(localStorage.getItem('souqi_offers') || '[]')
+        .filter(o => o.expires > Date.now());
+      if (!offers.length) return;
+      const grid = document.getElementById('offers-grid');
+      if (!grid) return;
+      offers.forEach(o => {
+        const card = document.createElement('div');
+        card.className = 'offer-card';
+        const html = '<div class="offer-thumb"><div class="discount-tag">خصم ' + o.discount + '%</div>' + o.emoji + '</div>'
+          + '<div class="offer-body">'
+          + '<div class="offer-shop-tag">🏪 من المحل</div>'
+          + '<div class="offer-name">' + o.name + '</div>'
+          + '<div class="offer-pricing"><span class="offer-new-price">' + o.newPrice + ' ج</span><span class="offer-old-price">' + o.oldPrice + ' ج</span></div>'
+          + '<div class="offer-timer">⏰ ينتهي قريباً</div>'
+          + '<button class="add-btn" onclick="addToCart(\'' + o.name + '\', ' + o.newPrice + ', \'' + o.emoji + '\', \'المحل\')">+ أضف للسلة</button>'
+          + '</div>';
+        card.innerHTML = html;
+        grid.appendChild(card);
+      });
+    } catch(e) {}
+  }
+  window.addEventListener('load', loadDynamicOffers);
 </script>
 
 <!-- ══ MODAL: تسجيل المحل ══ -->
