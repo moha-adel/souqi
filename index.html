@@ -65,6 +65,13 @@
         window.renderCategories(activeCats);
         buildShopFilter(shops.length ? shops : DEMO_SHOPS, activeCats);
       } else {
+        // build cats from shops data as fallback
+        const demoCats = [];
+        const seen = {};
+        (shops.length ? shops : DEMO_SHOPS).forEach(s => {
+          if (s.cat && !seen[s.cat]) { seen[s.cat]=1; demoCats.push({name:s.cat, emoji: s.emoji||'📦'}); }
+        });
+        window.renderCategories(demoCats);
         buildShopFilter(shops.length ? shops : DEMO_SHOPS, null);
       }
 
@@ -76,6 +83,10 @@
       window.updateHeroStats(DEMO_SHOPS.length);
       window.renderOffers(DEMO_OFFERS);
       window.renderProducts([]);
+      const fallbackCats = [];
+      const fcs = {};
+      DEMO_SHOPS.forEach(s => { if (s.cat && !fcs[s.cat]) { fcs[s.cat]=1; fallbackCats.push({name:s.cat, emoji:s.emoji||'📦'}); } });
+      window.renderCategories(fallbackCats);
       buildShopFilter(DEMO_SHOPS, null);
     }
   }
@@ -90,7 +101,7 @@
     names.forEach(n => {
       const cat = cats ? cats.find(c => c.name === n) : null;
       const emoji = cat ? cat.emoji + ' ' : '';
-      html += '<button class="filter-btn" html += '<button class="filter-btn" onclick="filterShops(\'' + n.replace(/'/g,"\\'") + '\',this)">' + emoji + n + '</button>';>' + emoji + n + '</button>';
+      html += '<button class="filter-btn" onclick="filterShops(\'' + n.replace(/'/g,'&#39;') + '\',this)">' + emoji + n + '</button>';
     });
     wrap.innerHTML = html;
   }
@@ -482,12 +493,6 @@ select.field-input{cursor:pointer}
   <h2>التصنيفات</h2>
   <p class="section-sub">اختار نوع المحل اللي عايز تتسوق منه</p>
   <div class="cats-grid" id="cats-grid">
-    <div class="cat-card" onclick="filterShops('بقالة',this)"><div class="cat-icon">🛒</div><div class="cat-name">بقالة</div><div class="cat-count"></div></div>
-    <div class="cat-card" onclick="filterShops('مكتبة',this)"><div class="cat-icon">📚</div><div class="cat-name">مكتبة</div><div class="cat-count"></div></div>
-    <div class="cat-card" onclick="filterShops('أدوات',this)"><div class="cat-icon">🔧</div><div class="cat-name">أدوات</div><div class="cat-count"></div></div>
-    <div class="cat-card" onclick="filterShops('خضار',this)"><div class="cat-icon">🥦</div><div class="cat-name">خضار</div><div class="cat-count"></div></div>
-    <div class="cat-card" onclick="filterShops('صيدلية',this)"><div class="cat-icon">💊</div><div class="cat-name">صيدلية</div><div class="cat-count"></div></div>
-    <div class="cat-card" onclick="filterShops('خدمات',this)"><div class="cat-icon">✂️</div><div class="cat-name">خدمات</div><div class="cat-count"></div></div>
   </div>
 </section>
 
@@ -715,7 +720,15 @@ var DEMO_OFFERS = [
 
 var allShops = [];
 var allProducts = [];
-window._waNumber = window._waNumber || '201000000000';
+if (!window._waNumber) window._waNumber = '201000000000';
+
+// restore cart display if items were saved
+document.addEventListener('DOMContentLoaded', function() {
+  if (cart.length) {
+    updateCart();
+    document.getElementById('cart-float').style.display = 'flex';
+  }
+});
 
 // ══ ADD TO CART via data attrs ══
 function addToCartFromEl(el) {
@@ -816,7 +829,7 @@ window.renderProducts = function(products) {
 
 function makeProductCard(p, bg, showShop) {
   var img = p.imageUrl ? '<img src="' + p.imageUrl + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">' : '';
-  var em  = p.imageUrl ? '' : (p.emoji ? '<span class="prd-emoji">' + p.emoji + '</span>' : '');
+  var em  = (!p.imageUrl && p.emoji) ? '<span class="prd-emoji">' + p.emoji + '</span>' : '';
   return '<div class="product-card">'
     + '<div class="product-thumb" style="background:' + bg + '">' + img + em + '</div>'
     + '<div class="product-body">'
@@ -824,7 +837,7 @@ function makeProductCard(p, bg, showShop) {
     + '<div class="product-name">' + p.name + '</div>'
     + '<div class="product-price">' + p.price + ' ج</div>'
     + '<button class="product-add" onclick="addToCartFromEl(this)"'
-    + ' data-n="' + (p.name||'') + '" data-p="' + p.price + '" data-e="' + (p.emoji||'📦') + '" data-s="' + (p.shopName||'') + '">+ أضف للسلة</button>'
+    + ' data-n="' + (p.name||'') + '" data-p="' + p.price + '" data-e="' + (p.emoji||'') + '" data-s="' + (p.shopName||'') + '">+ أضف للسلة</button>'
     + '</div></div>';
 }
 
@@ -922,7 +935,7 @@ function filterShops(cat, btn) {
 }
 
 // ══ CART ══
-var cart = [];
+var cart = (function(){ try { return JSON.parse(localStorage.getItem('souqi_cart')||'[]'); } catch(e){ return []; } })();
 function addToCart(name, price, emoji, shop) {
   var found = false;
   for (var i = 0; i < cart.length; i++) { if (cart[i].name===name && cart[i].shop===shop) { cart[i].qty++; found=true; break; } }
@@ -937,6 +950,7 @@ function removeFromCart(idx) {
   if (!cart.length) document.getElementById('cart-float').style.display = 'none';
 }
 function updateCart() {
+  try { localStorage.setItem('souqi_cart', JSON.stringify(cart)); } catch(e){}
   var count=0, total=0, shops=[];
   for (var i=0;i<cart.length;i++) { count+=cart[i].qty; total+=cart[i].price*cart[i].qty; if(shops.indexOf(cart[i].shop)===-1) shops.push(cart[i].shop); }
   document.getElementById('cart-badge').textContent = count;
@@ -984,6 +998,7 @@ function checkout() {
   var waNum = (window._waNumber || '201000000000').replace(/[^0-9]/g,'');
   window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent('مرحباً! عايز أطلب من سوقي:\n' + lines + '\nالإجمالي: ' + total + ' ج'), '_blank');
   cart = []; updateCart();
+  try { localStorage.removeItem('souqi_cart'); } catch(e){}
   document.getElementById('cart-float').style.display = 'none';
   closeCart();
   showToast('تم إرسال طلبك على واتساب ✅');
@@ -1007,20 +1022,22 @@ function submitShopForm() {
   closeModal('modal-shop');
   showToast('تم إرسال طلب التسجيل ✅');
 }
-function submitUserForm() {
+async function submitUserForm() {
   var name=document.getElementById('us-name').value.trim(), phone=document.getElementById('us-phone').value.trim(),
       area=document.getElementById('us-area').value.trim();
   if (!name||!phone||!area) { showToast('من فضلك اكمل كل الحقول ⚠️'); return; }
+  var saved = false;
   try {
     if (window._db && window._addDoc) {
-      window._addDoc(window._collection(window._db,'subscribers'), {
+      await window._addDoc(window._collection(window._db,'subscribers'), {
         name:name, phone:phone, area:area,
         createdAt: window._serverTimestamp ? window._serverTimestamp() : new Date()
       });
+      saved = true;
     }
-  } catch(e) {}
+  } catch(e) { console.warn('subscriber save error:', e); }
   closeModal('modal-user');
-  showToast('تم التسجيل! هيوصلك إشعار بأحدث العروض 🎉');
+  showToast(saved ? 'تم التسجيل! هيوصلك إشعار بأحدث العروض 🎉' : 'حدث خطأ في الحفظ، حاول تاني ⚠️');
 }
 
 // ══ TOAST ══
