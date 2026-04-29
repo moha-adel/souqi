@@ -9,7 +9,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, addDoc, doc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey:            "AIzaSyCtGt1p9ijFI4e7VzW9xAWm1suFBshkzBo",
@@ -23,23 +23,14 @@
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
 
-  // expose db for use in non-module script
-  window._db = db;
-  window._addDoc = addDoc;
-  window._collection = collection;
-  window._serverTimestamp = serverTimestamp;
-  window._doc = doc;
-  window._getDoc = getDoc;
-
   async function loadAll() {
     try {
-      const [shopsSnap, offersSnap, catsSnap, anncsSnap, prodsSnap, settingsDoc] = await Promise.all([
+      const [shopsSnap, offersSnap, catsSnap, anncsSnap, prodsSnap] = await Promise.all([
         getDocs(collection(db,'shops')),
         getDocs(collection(db,'offers')),
         getDocs(collection(db,'categories')),
         getDocs(collection(db,'announcements')),
         getDocs(collection(db,'products')),
-        getDoc(doc(db,'settings','main')),
       ]);
 
       const shops    = shopsSnap.docs.map(d=>({id:d.id,...d.data()}));
@@ -47,28 +38,14 @@
       const cats     = catsSnap.docs.map(d=>({id:d.id,...d.data()}));
       const anncs    = anncsSnap.docs.map(d=>({id:d.id,...d.data()})).filter(a=>a.active);
       const products = prodsSnap.docs.map(d=>({id:d.id,...d.data()}));
-      const settings = settingsDoc.exists() ? settingsDoc.data() : {};
-
-      // apply settings
-      if (settings.whatsapp) window._waNumber = settings.whatsapp;
-      if (settings.logoUrl)  applyLogo(settings.logoUrl);
 
       window.allProducts = products;
       window.renderShops(shops.length  ? shops  : DEMO_SHOPS);
       window.updateHeroStats(shops.length || DEMO_SHOPS.length);
       window.renderOffers(offers.length ? offers : DEMO_OFFERS);
       window.renderProducts(products);
-
-      // build dynamic shop filter buttons from real cats
-      const activeCats = cats.length ? cats : [];
-      if (activeCats.length) {
-        window.renderCategories(activeCats);
-        buildShopFilter(shops.length ? shops : DEMO_SHOPS, activeCats);
-      } else {
-        buildShopFilter(shops.length ? shops : DEMO_SHOPS, null);
-      }
-
-      if (anncs.length) window.showAnnouncement(anncs[0]);
+      if(cats.length)  window.renderCategories(cats);
+      if(anncs.length) window.showAnnouncement(anncs[0]);
 
     } catch(e) {
       console.warn('Firebase error:', e.message);
@@ -76,30 +53,7 @@
       window.updateHeroStats(DEMO_SHOPS.length);
       window.renderOffers(DEMO_OFFERS);
       window.renderProducts([]);
-      buildShopFilter(DEMO_SHOPS, null);
     }
-  }
-
-  function buildShopFilter(shops, cats) {
-    const wrap = document.getElementById('shops-filter');
-    if (!wrap) return;
-    // get unique cats from actual shops
-    const seen = {}, names = [];
-    shops.forEach(s => { if (s.cat && !seen[s.cat]) { seen[s.cat] = 1; names.push(s.cat); } });
-    let html = '<button class="filter-btn active" onclick="filterShops('',this)">الكل</button>';
-    names.forEach(n => {
-      const cat = cats ? cats.find(c => c.name === n) : null;
-      const emoji = cat ? cat.emoji + ' ' : '';
-      html += '<button class="filter-btn" onclick="filterShops('' + n.replace(/'/g,'\x27') + '',this)">' + emoji + n + '</button>';
-    });
-    wrap.innerHTML = html;
-  }
-
-  function applyLogo(url) {
-    const logos = document.querySelectorAll('.logo-img');
-    logos.forEach(l => { l.src = url; l.style.display = 'inline-block'; });
-    const texts = document.querySelectorAll('.logo-text');
-    texts.forEach(t => t.style.display = 'none');
   }
 
   window.addEventListener('DOMContentLoaded', loadAll);
@@ -543,7 +497,14 @@ select.field-input{cursor:pointer}
   <div class="section-tag">📍 قريب منك</div>
   <h2>المحلات</h2>
   <p class="section-sub">محلات منطقتك، مرتبة حسب المسافة</p>
-  <div class="shops-filter" id="shops-filter"><button class="filter-btn active" onclick="filterShops('',this)">الكل</button></div>
+  <div class="shops-filter">
+    <button class="filter-btn active" onclick="filterShops('الكل',this)">الكل</button>
+    <button class="filter-btn" onclick="filterShops('بقالة',this)">🛒 بقالة</button>
+    <button class="filter-btn" onclick="filterShops('مكتبة',this)">📚 مكتبة</button>
+    <button class="filter-btn" onclick="filterShops('أدوات',this)">🔧 أدوات</button>
+    <button class="filter-btn" onclick="filterShops('خضار',this)">🥦 خضار</button>
+    <button class="filter-btn" onclick="filterShops('صيدلية',this)">💊 صيدلية</button>
+  </div>
   <div class="shops-grid" id="shops-grid">
     <div class="shop-card"><div class="shop-img-placeholder skeleton" style="height:110px"></div><div class="shop-body"><div class="skeleton" style="height:16px;margin-bottom:6px"></div><div class="skeleton" style="height:12px;width:60%"></div></div></div>
     <div class="shop-card"><div class="shop-img-placeholder skeleton" style="height:110px"></div><div class="shop-body"><div class="skeleton" style="height:16px;margin-bottom:6px"></div><div class="skeleton" style="height:12px;width:60%"></div></div></div>
@@ -699,28 +660,22 @@ select.field-input{cursor:pointer}
 <script>
 // ══ DEMO DATA ══
 var DEMO_SHOPS = [
-  {id:'d1',name:'بقالة أبو محمد',cat:'بقالة',emoji:'🏪',area:'حي الزيتون',dist:'١٥٠ م',open:true,phone:'201000000001',bg:'#fef6e8',stars:'٤.٨',imageUrl:''},
-  {id:'d2',name:'مكتبة النور',cat:'مكتبة',emoji:'📚',area:'حي الزيتون',dist:'٣٠٠ م',open:true,phone:'201000000002',bg:'#e8f0fe',stars:'٤.٦',imageUrl:''},
-  {id:'d3',name:'أدوات الحاج سعيد',cat:'أدوات',emoji:'🔧',area:'حي الزيتون',dist:'٥٠٠ م',open:true,phone:'201000000003',bg:'#e8f5e9',stars:'٤.٥',imageUrl:''},
-  {id:'d4',name:'فاكهة الحاج إبراهيم',cat:'خضار',emoji:'🥦',area:'حي الزيتون',dist:'٢٠٠ م',open:true,phone:'201000000004',bg:'#fde8f0',stars:'٤.٩',imageUrl:''},
-  {id:'d5',name:'صيدلية الشفاء',cat:'صيدلية',emoji:'💊',area:'حي الزيتون',dist:'٤٠٠ م',open:false,phone:'201000000005',bg:'#f0e8fe',stars:'٤.٧',imageUrl:''},
-  {id:'d6',name:'كوافير ستار',cat:'خدمات',emoji:'✂️',area:'حي الزيتون',dist:'٦٠٠ م',open:true,phone:'201000000006',bg:'#fff0e8',stars:'٤.٣',imageUrl:''},
+  {id:'d1',name:'بقالة أبو محمد',   cat:'بقالة', emoji:'🏪',area:'حي الزيتون',dist:'١٥٠ م',open:true, phone:'201000000001',bg:'#fef6e8',stars:'٤.٨',imageUrl:''},
+  {id:'d2',name:'مكتبة النور',       cat:'مكتبة', emoji:'📚',area:'حي الزيتون',dist:'٣٠٠ م',open:true, phone:'201000000002',bg:'#e8f0fe',stars:'٤.٦',imageUrl:''},
+  {id:'d3',name:'أدوات الحاج سعيد', cat:'أدوات', emoji:'🔧',area:'حي الزيتون',dist:'٥٠٠ م',open:true, phone:'201000000003',bg:'#e8f5e9',stars:'٤.٥',imageUrl:''},
+  {id:'d4',name:'فاكهة الحاج إبراهيم',cat:'خضار',emoji:'🥦',area:'حي الزيتون',dist:'٢٠٠ م',open:true, phone:'201000000004',bg:'#fde8f0',stars:'٤.٩',imageUrl:''},
+  {id:'d5',name:'صيدلية الشفاء',    cat:'صيدلية',emoji:'💊',area:'حي الزيتون',dist:'٤٠٠ م',open:false,phone:'201000000005',bg:'#f0e8fe',stars:'٤.٧',imageUrl:''},
+  {id:'d6',name:'كوافير ستار',       cat:'خدمات', emoji:'✂️',area:'حي الزيتون',dist:'٦٠٠ م',open:true, phone:'201000000006',bg:'#fff0e8',stars:'٤.٣',imageUrl:''},
 ];
 var DEMO_OFFERS = [
   {id:'o1',name:'شامبو بانتين',emoji:'🧴',shopName:'بقالة أبو محمد',shopId:'d1',oldPrice:31,newPrice:25,discount:20,expires:Date.now()+3*3600000,imageUrl:'',bg:''},
-  {id:'o2',name:'كراسة A4',emoji:'📓',shopName:'مكتبة النور',shopId:'d2',oldPrice:14,newPrice:12,discount:15,expires:Date.now()+5*3600000,imageUrl:'',bg:'blue-bg'},
-  {id:'o3',name:'شاي أحمر',emoji:'🌿',shopName:'بقالة أبو محمد',shopId:'d1',oldPrice:33,newPrice:30,discount:10,expires:Date.now()+8*3600000,imageUrl:'',bg:'green-bg'},
-  {id:'o4',name:'سبرتاية',emoji:'🪴',shopName:'أدوات الحاج سعيد',shopId:'d3',oldPrice:20,newPrice:15,discount:25,expires:Date.now()+1*3600000,imageUrl:'',bg:'pink-bg'},
+  {id:'o2',name:'كراسة A4',    emoji:'📓',shopName:'مكتبة النور',   shopId:'d2',oldPrice:14,newPrice:12,discount:15,expires:Date.now()+5*3600000,imageUrl:'',bg:'blue-bg'},
+  {id:'o3',name:'شاي أحمر',   emoji:'🌿',shopName:'بقالة أبو محمد',shopId:'d1',oldPrice:33,newPrice:30,discount:10,expires:Date.now()+8*3600000,imageUrl:'',bg:'green-bg'},
+  {id:'o4',name:'سبرتاية',     emoji:'🪴',shopName:'أدوات الحاج سعيد',shopId:'d3',oldPrice:20,newPrice:15,discount:25,expires:Date.now()+1*3600000,imageUrl:'',bg:'pink-bg'},
 ];
 
 var allShops = [];
 var allProducts = [];
-window._waNumber = window._waNumber || '201000000000';
-
-// ══ ADD TO CART via data attrs ══
-function addToCartFromEl(el) {
-  addToCart(el.dataset.n, +el.dataset.p, el.dataset.e || '📦', el.dataset.s || '');
-}
 
 // ══ RENDER SHOPS ══
 window.renderShops = function(shops) {
@@ -732,7 +687,7 @@ window.renderShops = function(shops) {
     var s = shops[i];
     var bg = s.bg || '#fef6e8';
     var top = s.imageUrl
-      ? '<img class="shop-img" src="' + s.imageUrl + '" alt="">'
+      ? '<img class="shop-img" src="' + s.imageUrl + '" alt="' + s.name + '">'
       : '<div class="shop-img-placeholder" style="background:' + bg + '">' + (s.emoji||'🏪') + '</div>';
     var open = s.open
       ? '<span class="shop-badge badge-open">مفتوح الآن</span>'
@@ -764,16 +719,18 @@ window.renderOffers = function(offers) {
     var t    = hrs > 0 ? 'ينتهي بعد ' + hrs + ' ساعة' : 'ينتهي بعد ' + mins + ' دقيقة';
     var bg   = o.bg || bgs[i % bgs.length];
     var img  = o.imageUrl ? '<img src="' + o.imageUrl + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">' : '';
-    var em   = o.imageUrl ? '' : (o.emoji ? '<span class="emoji-fallback">' + o.emoji + '</span>' : '');
+    var em   = '<span class="emoji-fallback">' + (o.emoji||'🛍️') + '</span>';
     html += '<div class="offer-card">'
       + '<div class="offer-thumb ' + bg + '"><div class="discount-tag">خصم ' + o.discount + '٪</div>' + img + em + '</div>'
       + '<div class="offer-body">'
       + '<div class="offer-shop-tag">🏪 ' + (o.shopName||'') + '</div>'
       + '<div class="offer-name">' + o.name + '</div>'
-      + '<div class="offer-pricing"><span class="offer-new-price">' + o.newPrice + ' ج</span><span class="offer-old-price">' + o.oldPrice + ' ج</span></div>'
+      + '<div class="offer-pricing"><span class="offer-new-price">' + o.newPrice + ' ج</span>'
+      + '<span class="offer-old-price">' + o.oldPrice + ' ج</span></div>'
       + '<div class="offer-timer">⏰ ' + t + '</div>'
-      + '<button class="add-btn" onclick="addToCartFromEl(this)"'
-      + ' data-n="' + (o.name||'') + '" data-p="' + o.newPrice + '" data-e="' + (o.emoji||'🛍️') + '" data-s="' + (o.shopName||'') + '">+ أضف للسلة</button>'
+      + '<button class="add-btn" onclick="addToCart(this.dataset.n,+this.dataset.p,this.dataset.e,this.dataset.s)"'
+      + ' data-n="' + o.name.replace(/"/g,'&quot;') + '" data-p="' + o.newPrice + '"'
+      + ' data-e="' + (o.emoji||'🛍️') + '" data-s="' + (o.shopName||'').replace(/"/g,'&quot;') + '">+ أضف للسلة</button>'
       + '</div></div>';
     dotsHtml += '<button class="carousel-dot' + (i===0?' active':'') + '" onclick="scrollToOffer(' + i + ')"></button>';
   }
@@ -804,36 +761,37 @@ window.renderProducts = function(products) {
   var seen = {}, names = [];
   for (var i = 0; i < products.length; i++) {
     var sn = products[i].shopName;
-    if (sn && !seen[sn]) { seen[sn]=1; names.push(sn); }
+    if (sn && !seen[sn]) { seen[sn] = 1; names.push(sn); }
   }
-  var fh = '<button class="filter-btn active" data-shop="" onclick="filterProducts(this.dataset.shop,this)">الكل</button>';
+  var fh = '<button class="filter-btn active" onclick="filterProducts(\'\',this)">الكل</button>';
   for (var j = 0; j < names.length; j++) {
-    fh += '<button class="filter-btn" data-shop="' + names[j] + '" onclick="filterProducts(this.dataset.shop,this)">' + names[j] + '</button>';
+    fh += '<button class="filter-btn" onclick="filterProducts(\'' + names[j].replace(/'/g, '\\x27') + '\',this)">' + names[j] + '</button>';
   }
   fw.innerHTML = fh;
   renderProductCards(products);
 };
-
-function makeProductCard(p, bg, showShop) {
-  var img = p.imageUrl ? '<img src="' + p.imageUrl + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">' : '';
-  var em  = p.imageUrl ? '' : (p.emoji ? '<span class="prd-emoji">' + p.emoji + '</span>' : '');
-  return '<div class="product-card">'
-    + '<div class="product-thumb" style="background:' + bg + '">' + img + em + '</div>'
-    + '<div class="product-body">'
-    + (showShop ? '<div class="product-shop">🏪 ' + (p.shopName||'') + '</div>' : '')
-    + '<div class="product-name">' + p.name + '</div>'
-    + '<div class="product-price">' + p.price + ' ج</div>'
-    + '<button class="product-add" onclick="addToCartFromEl(this)"'
-    + ' data-n="' + (p.name||'') + '" data-p="' + p.price + '" data-e="' + (p.emoji||'📦') + '" data-s="' + (p.shopName||'') + '">+ أضف للسلة</button>'
-    + '</div></div>';
-}
 
 function renderProductCards(products) {
   var grid = document.getElementById('products-grid');
   var bgs  = ['#fef6e8','#e8f0fe','#e8f5e9','#fde8f0','#f0e8fe'];
   if (!products.length) { grid.innerHTML = '<div style="padding:36px;text-align:center;color:#888;grid-column:1/-1">مفيش منتجات</div>'; return; }
   var html = '';
-  for (var i = 0; i < products.length; i++) html += makeProductCard(products[i], bgs[i%bgs.length], true);
+  for (var i = 0; i < products.length; i++) {
+    var p   = products[i];
+    var bg  = bgs[i % bgs.length];
+    var img = p.imageUrl ? '<img src="' + p.imageUrl + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">' : '';
+    var em  = '<span class="prd-emoji">' + (p.emoji||'📦') + '</span>';
+    html += '<div class="product-card">'
+      + '<div class="product-thumb" style="background:' + bg + '">' + img + em + '</div>'
+      + '<div class="product-body">'
+      + '<div class="product-shop">🏪 ' + (p.shopName||'') + '</div>'
+      + '<div class="product-name">' + p.name + '</div>'
+      + '<div class="product-price">' + p.price + ' ج</div>'
+      + '<button class="product-add" onclick="addToCart(this.dataset.n,+this.dataset.p,this.dataset.e,this.dataset.s)"'
+      + ' data-n="' + p.name.replace(/"/g,'&quot;') + '" data-p="' + p.price + '"'
+      + ' data-e="' + (p.emoji||'📦') + '" data-s="' + (p.shopName||'').replace(/"/g,'&quot;') + '">+ أضف للسلة</button>'
+      + '</div></div>';
+  }
   grid.innerHTML = html;
 }
 
@@ -847,19 +805,30 @@ window.filterProducts = function(shopName, btn) {
 // ══ SHOP MODAL ══
 window.openShopModal = function(shopId) {
   var shop = null;
-  for (var i = 0; i < allShops.length; i++) { if (allShops[i].id === shopId) { shop=allShops[i]; break; } }
+  for (var i = 0; i < allShops.length; i++) { if (allShops[i].id === shopId) { shop = allShops[i]; break; } }
   if (!shop) return;
-  var prods = allProducts.filter(function(p){return p.shopId===shopId;});
+  var prods = allProducts.filter(function(p){return p.shopId === shopId;});
   document.getElementById('shop-modal-title').textContent = (shop.emoji||'🏪') + ' ' + shop.name;
-  document.getElementById('shop-modal-sub').textContent = (shop.cat||'') + (shop.area?' · '+shop.area:'') + (shop.dist?' · '+shop.dist:'') + ' · ' + (shop.open?'مفتوح':'مغلق');
+  document.getElementById('shop-modal-sub').textContent = (shop.cat||'') + (shop.area?' · '+shop.area:'') + (shop.dist?' · '+shop.dist:'') + ' · ' + (shop.open?'مفتوح الآن':'مغلق');
   var bgs = ['#fef6e8','#e8f0fe','#e8f5e9','#fde8f0'];
   var html = '';
   if (!prods.length) {
     html = '<div style="grid-column:1/-1;padding:24px;text-align:center;color:#888;font-size:13px">مفيش منتجات مضافة لهذا المحل لسه</div>';
   } else {
     for (var j = 0; j < prods.length; j++) {
-      var p = prods[j]; var pg = Object.assign({}, p, {shopName: shop.name});
-      html += makeProductCard(pg, bgs[j%bgs.length], false);
+      var p = prods[j];
+      var bg = bgs[j % bgs.length];
+      var img = p.imageUrl ? '<img src="' + p.imageUrl + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">' : '';
+      var em  = '<span class="prd-emoji">' + (p.emoji||'📦') + '</span>';
+      html += '<div class="product-card">'
+        + '<div class="product-thumb" style="background:' + bg + '">' + img + em + '</div>'
+        + '<div class="product-body">'
+        + '<div class="product-name">' + p.name + '</div>'
+        + '<div class="product-price">' + p.price + ' ج</div>'
+        + '<button class="product-add" onclick="addToCart(this.dataset.n,+this.dataset.p,this.dataset.e,this.dataset.s);closeShopModal()"'
+        + ' data-n="' + p.name.replace(/"/g,'&quot;') + '" data-p="' + p.price + '"'
+        + ' data-e="' + (p.emoji||'📦') + '" data-s="' + shop.name.replace(/"/g,'&quot;') + '">+ أضف للسلة</button>'
+        + '</div></div>';
     }
   }
   document.getElementById('shop-modal-products').innerHTML = html;
@@ -874,16 +843,15 @@ window.closeShopModal = function() {
 
 // ══ RENDER CATEGORIES ══
 window.renderCategories = function(cats) {
-  var grid = document.getElementById('cats-grid');
   var html = '';
   for (var i = 0; i < cats.length; i++) {
-    var cat = cats[i];
-    html += '<div class="cat-card" data-cat="' + (cat.name||'') + '" onclick="filterShops(this.dataset.cat,this)">'
-      + '<div class="cat-icon">' + (cat.emoji||'📦') + '</div>'
-      + '<div class="cat-name">' + cat.name + '</div>'
+    var c = cats[i];
+    html += '<div class="cat-card" onclick="filterShops(\'' + c.name.replace(/'/g,'\\x27') + '\',this)">'
+      + '<div class="cat-icon">' + (c.emoji||'📦') + '</div>'
+      + '<div class="cat-name">' + c.name + '</div>'
       + '<div class="cat-count"></div></div>';
   }
-  grid.innerHTML = html;
+  document.getElementById('cats-grid').innerHTML = html;
 };
 
 // ══ ANNOUNCEMENT ══
@@ -916,7 +884,7 @@ function filterShops(cat, btn) {
   if (btn && btn.classList.contains('filter-btn')) btn.classList.add('active');
   var cards = document.querySelectorAll('.shop-card');
   for (var j = 0; j < cards.length; j++) {
-    cards[j].style.display = (!cat || cat==='الكل' || cards[j].dataset.cat===cat) ? '' : 'none';
+    cards[j].style.display = (cat === 'الكل' || cards[j].dataset.cat === cat) ? '' : 'none';
   }
   document.getElementById('shops').scrollIntoView({behavior:'smooth'});
 }
@@ -925,7 +893,7 @@ function filterShops(cat, btn) {
 var cart = [];
 function addToCart(name, price, emoji, shop) {
   var found = false;
-  for (var i = 0; i < cart.length; i++) { if (cart[i].name===name && cart[i].shop===shop) { cart[i].qty++; found=true; break; } }
+  for (var i = 0; i < cart.length; i++) { if (cart[i].name === name) { cart[i].qty++; found = true; break; } }
   if (!found) cart.push({name:name, price:price, emoji:emoji, shop:shop, qty:1});
   updateCart();
   showToast('تمت الإضافة ✓ ' + emoji);
@@ -937,17 +905,18 @@ function removeFromCart(idx) {
   if (!cart.length) document.getElementById('cart-float').style.display = 'none';
 }
 function updateCart() {
-  var count=0, total=0, shops=[];
-  for (var i=0;i<cart.length;i++) { count+=cart[i].qty; total+=cart[i].price*cart[i].qty; if(shops.indexOf(cart[i].shop)===-1) shops.push(cart[i].shop); }
-  document.getElementById('cart-badge').textContent = count;
-  document.getElementById('nav-count').textContent  = count;
-  document.getElementById('cart-total').textContent = total + ' ج';
+  var count = 0, total = 0;
+  var shops = [];
+  for (var i = 0; i < cart.length; i++) { count += cart[i].qty; total += cart[i].price * cart[i].qty; if (shops.indexOf(cart[i].shop) === -1) shops.push(cart[i].shop); }
+  document.getElementById('cart-badge').textContent  = count;
+  document.getElementById('nav-count').textContent   = count;
+  document.getElementById('cart-total').textContent  = total + ' ج';
   var list = document.getElementById('cart-items-list');
   if (!cart.length) {
     list.innerHTML = '<div style="text-align:center;color:#888;padding:36px 16px;font-size:13px">سلتك فاضية 🛒</div>';
   } else {
     var html = '';
-    for (var j=0;j<cart.length;j++) {
+    for (var j = 0; j < cart.length; j++) {
       var item = cart[j];
       html += '<div class="cart-item-row">'
         + '<span class="cart-item-emoji">' + item.emoji + '</span>'
@@ -959,34 +928,17 @@ function updateCart() {
     list.innerHTML = html;
   }
   var sav = document.getElementById('cart-savings');
-  if (shops.length > 1) { sav.style.display='flex'; document.getElementById('savings-text').textContent='جمعت من '+shops.length+' محلات في سلة واحدة!'; }
+  if (shops.length > 1) { sav.style.display='flex'; document.getElementById('savings-text').textContent='جمعت من ' + shops.length + ' محلات في سلة واحدة!'; }
   else sav.style.display = 'none';
 }
 function openCart()  { document.getElementById('cart-overlay').classList.add('open');    document.getElementById('cart-sidebar').classList.add('open'); }
 function closeCart() { document.getElementById('cart-overlay').classList.remove('open'); document.getElementById('cart-sidebar').classList.remove('open'); }
 function checkout() {
   if (!cart.length) { showToast('السلة فاضية!'); return; }
-  var lines='', total=0;
-  for (var i=0;i<cart.length;i++) { lines+='- '+cart[i].name+' × '+cart[i].qty+' ('+(cart[i].price*cart[i].qty)+' ج)\n'; total+=cart[i].price*cart[i].qty; }
-  var shopNames=[];
-  cart.forEach(function(i){ if(shopNames.indexOf(i.shop)===-1) shopNames.push(i.shop); });
-  // save to Firestore
-  try {
-    if (window._db && window._addDoc) {
-      window._addDoc(window._collection(window._db,'orders'), {
-        items: lines.trim(), total: total,
-        shopName: shopNames.join(' + '),
-        status: 'جديد', source: 'whatsapp',
-        createdAt: window._serverTimestamp ? window._serverTimestamp() : new Date()
-      });
-    }
-  } catch(e) {}
-  var waNum = (window._waNumber || '201000000000').replace(/[^0-9]/g,'');
-  window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent('مرحباً! عايز أطلب من سوقي:\n' + lines + '\nالإجمالي: ' + total + ' ج'), '_blank');
-  cart = []; updateCart();
-  document.getElementById('cart-float').style.display = 'none';
-  closeCart();
-  showToast('تم إرسال طلبك على واتساب ✅');
+  var lines = '';
+  for (var i = 0; i < cart.length; i++) lines += '- ' + cart[i].name + ' × ' + cart[i].qty + ' (' + (cart[i].price*cart[i].qty) + ' ج)\n';
+  var total = 0; for (var j = 0; j < cart.length; j++) total += cart[j].price * cart[j].qty;
+  window.open('https://wa.me/201000000000?text=' + encodeURIComponent('مرحباً! عايز أطلب من سوقي:\n' + lines + '\nالإجمالي: ' + total + ' ج'), '_blank');
 }
 
 // ══ MODALS ══
@@ -994,7 +946,7 @@ function openModal(id)  { document.getElementById(id).classList.add('open');    
 function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
 function selectCat(el, val) {
   var picks = document.querySelectorAll('#cat-picks .cat-pick');
-  for (var i=0;i<picks.length;i++) picks[i].classList.remove('selected');
+  for (var i = 0; i < picks.length; i++) picks[i].classList.remove('selected');
   el.classList.add('selected');
   document.getElementById('sh-cat').value = val;
 }
@@ -1002,8 +954,7 @@ function submitShopForm() {
   var name=document.getElementById('sh-name').value.trim(), phone=document.getElementById('sh-phone').value.trim(),
       cat=document.getElementById('sh-cat').value, area=document.getElementById('sh-area').value.trim();
   if (!name||!phone||!cat||!area) { showToast('من فضلك اكمل كل الحقول ⚠️'); return; }
-  var waNum = (window._waNumber||'201000000000').replace(/[^0-9]/g,'');
-  window.open('https://wa.me/'+waNum+'?text='+encodeURIComponent('مرحباً سوقي!\nعايز أسجل محلي:\n• الاسم: '+name+'\n• الرقم: '+phone+'\n• التصنيف: '+cat+'\n• المنطقة: '+area),'_blank');
+  window.open('https://wa.me/201000000000?text=' + encodeURIComponent('مرحباً سوقي!\nعايز أسجل محلي:\n• الاسم: '+name+'\n• الرقم: '+phone+'\n• التصنيف: '+cat+'\n• المنطقة: '+area), '_blank');
   closeModal('modal-shop');
   showToast('تم إرسال طلب التسجيل ✅');
 }
@@ -1012,12 +963,9 @@ function submitUserForm() {
       area=document.getElementById('us-area').value.trim();
   if (!name||!phone||!area) { showToast('من فضلك اكمل كل الحقول ⚠️'); return; }
   try {
-    if (window._db && window._addDoc) {
-      window._addDoc(window._collection(window._db,'subscribers'), {
-        name:name, phone:phone, area:area,
-        createdAt: window._serverTimestamp ? window._serverTimestamp() : new Date()
-      });
-    }
+    var subs = JSON.parse(localStorage.getItem('souqi_subscribers')||'[]');
+    var found = false; for (var i=0;i<subs.length;i++) if(subs[i].phone===phone){found=true;break;}
+    if (!found) { subs.push({id:Date.now(),name:name,phone:phone,area:area}); localStorage.setItem('souqi_subscribers',JSON.stringify(subs)); }
   } catch(e) {}
   closeModal('modal-user');
   showToast('تم التسجيل! هيوصلك إشعار بأحدث العروض 🎉');
